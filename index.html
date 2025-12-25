@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Jill.ai | Intelligence with Intent</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              background: '#fcfaf7',
+              foreground: '#1a1a1a',
+              accent: '#d48d5d',
+            },
+            fontFamily: {
+              sans: ['Inter', 'system-ui', 'sans-serif'],
+              serif: ['Georgia', 'serif'],
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap');
+      
+      html.lenis {
+        height: auto;
+      }
+      
+      .lenis.lenis-smooth {
+        scroll-behavior: auto;
+      }
+      
+      .lenis.lenis-smooth [data-lenis-prevent] {
+        overscroll-behavior: contain;
+      }
+      
+      .lenis.lenis-stopped {
+        overflow: hidden;
+      }
+      
+      .lenis.lenis-scrolling iframe {
+        pointer-events: none;
+      }
+
+      body {
+        margin: 0;
+        padding: 0;
+        background-color: #fcfaf7;
+        color: #1a1a1a;
+        overflow-x: hidden;
+      }
+
+      @media (pointer: fine) {
+        body, a, button, input, textarea {
+          cursor: none !important;
+        }
+      }
+
+      @property --glow-color {
+        syntax: '<color>';
+        initial-value: hsla(0, 100%, 85%, 0.7);
+        inherits: false;
+      }
+
+      @keyframes iridescent {
+        0% { --glow-color: hsla(0, 100%, 85%, 0.8); }
+        16% { --glow-color: hsla(30, 100%, 85%, 0.8); }
+        33% { --glow-color: hsla(60, 100%, 85%, 0.8); }
+        50% { --glow-color: hsla(120, 100%, 85%, 0.8); }
+        66% { --glow-color: hsla(210, 100%, 85%, 0.8); }
+        83% { --glow-color: hsla(270, 100%, 85%, 0.8); }
+        100% { --glow-color: hsla(0, 100%, 85%, 0.8); }
+      }
+
+      .glow-pulse {
+        animation: iridescent 10s infinite linear;
+        box-shadow: 0 0 40px 10px var(--glow-color);
+      }
+
+      .cursor-gradient {
+        background: radial-gradient(circle, #fff 0%, var(--glow-color) 35%, transparent 80%);
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
+    "react/": "https://esm.sh/react@^19.2.3/",
+    "react": "https://esm.sh/react@^19.2.3",
+    "@studio-freight/lenis": "https://esm.sh/@studio-freight/lenis@^1.0.42",
+    "gsap/": "https://esm.sh/gsap@^3.14.2/",
+    "gsap": "https://esm.sh/gsap@^3.14.2"
+  }
+}
+</script>
+</head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>
