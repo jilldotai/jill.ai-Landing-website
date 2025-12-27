@@ -25,6 +25,7 @@
     <style>
       @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap');
       
+      /* Lenis Recommended CSS */
       html.lenis {
         height: auto;
       }
@@ -50,11 +51,16 @@
         padding: 0;
         background-color: #fcfaf7;
         color: #1a1a1a;
-        overflow-x: hidden;
+        width: 100%;
+        min-height: 100vh;
+        /* Prevent browser bounce/overscroll which can break scroll libraries */
+        overscroll-behavior: none;
+        -webkit-font-smoothing: antialiased;
       }
 
+      /* Cursor behavior */
       @media (pointer: fine) {
-        body, a, button, input, textarea {
+        body, a, button, input, textarea, select {
           cursor: none !important;
         }
       }
@@ -99,5 +105,7 @@
 </head>
   <body>
     <div id="root"></div>
+    <!-- CRITICAL: Load the React application -->
+    <script type="module" src="./index.tsx"></script>
   </body>
 </html>

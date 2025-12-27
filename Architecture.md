@@ -1,50 +1,75 @@
+# Jill.ai | Technical Architecture & Deployment Guide
 
-# Lumina Technical Architecture
+This document provides the complete roadmap for running Jill.ai as a high-performance web application in your local IDE, on Google Chrome, or hosted on GitHub/Vercel.
 
-This document outlines the architecture and implementation details for the Lumina high-performance website.
+## 1. Project Overview
+Jill.ai is built using **React 18**, **GSAP 3** (Motion), and **Lenis** (Smooth Scroll). It utilizes a "No-Build" architecture via an `importmap` in the `index.html`, but for professional development, a **Vite** environment is recommended to handle JSX and TypeScript compilation.
 
-## 1. Tech Stack Overview
-- **Framework**: React 18+ (Vite)
-- **Styling**: Tailwind CSS
-- **Motion Engine**: GSAP (GreenSock Animation Platform)
-- **Scroll Engine**: Lenis (Studio Freight) for smooth momentum-based scrolling.
-- **Visuals**: Canvas-based frame-scrubbing for high-performance interactive sequences.
+---
 
-## 2. Component Flow
-The application follows a linear storytelling flow typical of premium hardware brands:
+## 2. Local Development Setup (Recommended)
 
-### Global Layout (`Layout.tsx`)
-- **Lenis Implementation**: Initializes the smooth scroll instance.
-- **Custom Cursor**: Integrates the `GlowingCursor` component globally.
-- **GSAP Sync**: Updates GSAP `ScrollTrigger` instances on every Lenis scroll tick.
+To run this in your IDE (VS Code, Cursor, etc.) and view it in Google Chrome:
 
-### Custom Cursor (`GlowingCursor.tsx`)
-- **Orb & Tail**: A multi-element cursor that follows the mouse with variable inertia.
-- **Iridescent Animation**: A CSS keyframe-based glow that cycles through cyan, purple, lime, and white.
-- **Responsiveness**: Automatically disabled on touch devices using media queries (`pointer: fine`).
+### Step 1: Initialize Project
+Create a new folder and initialize it:
+```bash
+mkdir jill-ai && cd jill-ai
+npm init -y
+```
 
-### Sections
-1. **Hero Section (`Hero.tsx`)**: High-impact entry with staggered text reveals and a blurred image intro.
-2. **Interactive Frame Scrubber (`FrameScrubber.tsx`)**:
-   - Uses a `canvas` to render pre-cached images.
-   - GSAP `ScrollTrigger` maps the scroll progress directly to the frame index.
-   - Text overlays animate in and out based on specific scroll percentages.
-3. **Feature Grid (`FeatureGrid.tsx`)**:
-   - A 2x2 grid of hardware features.
-   - Intersection-based entry animations (staggered translateY/opacity).
-4. **CTA Section**: Final push for product interaction.
+### Step 2: Install Dependencies
+While the current code uses ESM imports, installing types and the local dev server (Vite) ensures better IDE performance:
+```bash
+npm install -D vite typescript @types/react @types/react-dom
+npm install gsap @studio-freight/lenis react react-dom
+```
 
-## 3. High Performance Considerations
-- **Image Preloading**: Frame scrubbing sequences are preloaded into memory to ensure zero-lag scrubbing.
-- **Canvas Rendering**: Using Canvas instead of <img> or <video> tags for scrubbing prevents layout thrashing and ensures 60FPS interaction.
-- **GSAP quickTo**: Used for the cursor to bypass React state updates for mouse position, providing sub-millisecond response times.
-- **Lenis Configuration**: Tuned easing (exponential) for a "heavy", premium feel.
+### Step 3: File Structure
+Ensure your root directory matches this:
+- `index.html` (The entry point)
+- `index.tsx` (The React mounter)
+- `App.tsx` (The main application)
+- `components/` (All your .tsx components)
+- `metadata.json`
 
-## 4. Deployment Requirements
-- **Node.js**: 16.x or higher.
-- **Package Manager**: NPM or Yarn.
-- **Environment**: Ensure GSAP and Lenis are correctly transpiled.
+### Step 4: Running the App
+Run the Vite development server:
+```bash
+npx vite
+```
+Open the provided URL (usually `http://localhost:5173`) in **Google Chrome**.
 
-## 5. Future Scalability
-- **WebGL Integration**: The current structure is ready to accept Three.js components within the GSAP ScrollTrigger timeline.
-- **Asset Management**: For larger frame sequences, consider implementing a lazy-loading buffer.
+---
+
+## 3. Deployment Guide
+
+### Option A: GitHub Pages (Free)
+1. Push your code to a GitHub repository.
+2. Go to **Settings > Pages**.
+3. Under **Build and deployment**, set Source to **GitHub Actions**.
+4. Use the "Static HTML" or "Vite" template provided by GitHub.
+
+### Option B: Vercel / Netlify (Recommended for React)
+1. Connect your GitHub repository to Vercel.com.
+2. It will automatically detect Vite.
+3. Click **Deploy**.
+
+---
+
+## 4. Solving the "No Scroll" Issue
+If you install the app and still cannot scroll with the mouse wheel, check these three common "High-Performance" traps:
+
+1. **Event Hijacking**: If an element has `position: fixed` and `pointer-events: auto`, even if it's invisible (opacity: 0), it will "catch" the wheel event. Ensure the `MenuOverlay` is set to `display: none` when closed.
+2. **CSS Overflows**: Never set `overflow: hidden` on the `body` or `html` tags manually when using Lenis. Lenis adds its own classes (`.lenis-stopped`) to handle this.
+3. **Z-Index Clipping**: If the `GlowingCursor` (z-9999) or `Navbar` (z-50) is covering the screen incorrectly, they can block the scroll. We have applied `pointer-events: none` to the Navbar container to prevent this.
+
+## 5. IDE Performance Tips
+- **VS Code Extensions**: Install "ESLint", "Prettier", and "Tailwind CSS IntelliSense".
+- **Chrome DevTools**: Use the **Performance** tab to check for frame drops. If you see red bars, reduce the `particleCount` in `GlowingCursor.tsx`.
+
+---
+
+## 6. Support & Scaling
+- **Images**: For production, move images from Unsplash URLs to a local `public/assets/` folder.
+- **Videos**: Use a CDN (like Cloudinary or Vercel Blob) for the scroll-video sections to ensure low-latency scrubbing.

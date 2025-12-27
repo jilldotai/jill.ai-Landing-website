@@ -25,6 +25,12 @@ const Hero: React.FC = () => {
     );
   }, []);
 
+  const handleScrollClick = () => {
+    if ((window as any).lenis) {
+      (window as any).lenis.scrollTo('#showcase', { offset: 0, duration: 1.5 });
+    }
+  };
+
   return (
     <section ref={containerRef} className="relative h-screen flex flex-col items-center justify-center overflow-hidden bg-background px-6">
       <div className="hero-image absolute inset-0 z-0">
@@ -50,10 +56,13 @@ const Hero: React.FC = () => {
         </p>
       </div>
 
-      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 animate-bounce opacity-40">
-        <span className="text-[10px] uppercase tracking-[0.3em]">Scroll</span>
-        <div className="w-[1px] h-10 bg-foreground"></div>
-      </div>
+      <button 
+        onClick={handleScrollClick}
+        className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 animate-bounce opacity-40 hover:opacity-100 transition-opacity cursor-pointer group pointer-events-auto"
+      >
+        <span className="text-[10px] uppercase tracking-[0.3em] group-hover:text-accent transition-colors">Scroll</span>
+        <div className="w-[1px] h-10 bg-foreground group-hover:bg-accent transition-colors"></div>
+      </button>
     </section>
   );
 };
