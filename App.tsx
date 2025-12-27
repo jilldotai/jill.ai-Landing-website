@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react';
+
+import React, { useEffect, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Layout from './components/Layout';
@@ -10,16 +11,38 @@ import RoadmapSection from './components/RoadmapSection';
 import FounderSection from './components/FounderSection';
 import ContactSection from './components/ContactSection';
 import Footer from './components/Footer';
+import SupportAgent from './components/SupportAgent';
 
 // Register GSAP plugins globally
 gsap.registerPlugin(ScrollTrigger);
 
 const App: React.FC = () => {
+  const [showAlphaForm, setShowAlphaForm] = useState(false);
+
   useEffect(() => {
     ScrollTrigger.refresh();
   }, []);
 
-  // Shared high-quality video for caching efficiency
+  const handleWhitepaperDownload = (e: React.MouseEvent) => {
+    e.preventDefault();
+    // Simulate a high-quality PDF generation and download
+    const mockContent = `
+      JILL.AI | TECHNICAL WHITEPAPER v1.0
+      ----------------------------------
+      MISSION: INTELLIGENCE WITH INTENT
+      The next era of personal agency.
+      ... full documentation ...
+    `;
+    const blob = new Blob([mockContent], { type: 'application/pdf' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'JillAI_Whitepaper_2025.pdf';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   const heroVideo = "https://assets.mixkit.co/videos/preview/mixkit-slow-motion-of-a-woman-in-a-field-of-flowers-43187-large.mp4";
 
   return (
@@ -40,9 +63,19 @@ const App: React.FC = () => {
               <p>
                 Jill.ai integrates seamlessly into your cognitive workspace, providing a buffer between thought and execution that feels entirely natural. 
               </p>
-              <p>
-                By utilizing low-latency neural processing and a focus on intentional design, we enable a flow state that was previously impossible.
-              </p>
+              <div>
+                <p className="mb-8">
+                  By utilizing low-latency neural processing and a focus on intentional design, we enable a flow state that was previously impossible.
+                </p>
+                <a 
+                  href="/whitepaper" 
+                  onClick={handleWhitepaperDownload}
+                  className="inline-flex items-center gap-4 text-[10px] font-bold uppercase tracking-[0.4em] text-accent group"
+                >
+                  Download Whitepaper
+                  <span className="w-10 h-[1px] bg-accent group-hover:w-16 transition-all duration-500"></span>
+                </a>
+              </div>
             </div>
           </div>
         </section>
@@ -90,18 +123,58 @@ const App: React.FC = () => {
         </div>
 
         {/* Final CTA Section */}
-        <section className="py-32 flex flex-col items-center justify-center bg-background p-10">
-          <h2 className="text-5xl md:text-7xl font-light tracking-tight mb-8 text-foreground text-center">Join the Alpha</h2>
-          <p className="text-foreground/50 text-center max-w-lg mb-12 font-light">
-            We are accepting a limited number of pioneers into our early access program. Secure your place in the next evolution of personal intelligence.
-          </p>
-          <button className="px-12 py-5 bg-foreground text-background rounded-full hover:bg-accent transition-all duration-700 text-[10px] font-bold uppercase tracking-[0.4em] hover:scale-105 active:scale-95 shadow-xl">
-            Request Early Access
-          </button>
+        <section className="py-32 flex flex-col items-center justify-center bg-background p-6 md:p-10 relative overflow-hidden">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60%] h-[60%] bg-accent/5 blur-[100px] rounded-full pointer-events-none" />
+          
+          <div className="relative z-10 w-full max-w-4xl flex flex-col items-center">
+            <h2 className="text-5xl md:text-7xl font-light tracking-tight mb-8 text-foreground text-center">Join the Alpha</h2>
+            
+            {!showAlphaForm ? (
+              <>
+                <p className="text-foreground/50 text-center max-w-lg mb-12 font-light text-lg">
+                  We are accepting a limited number of pioneers into our early access program. Secure your place in the next evolution of personal intelligence.
+                </p>
+                <button 
+                  onClick={() => setShowAlphaForm(true)}
+                  className="px-12 py-5 bg-foreground text-background rounded-full hover:bg-accent transition-all duration-700 text-[10px] font-bold uppercase tracking-[0.4em] hover:scale-105 active:scale-95 shadow-xl"
+                >
+                  Request Early Access
+                </button>
+              </>
+            ) : (
+              <div className="w-full animate-in fade-in zoom-in-95 duration-1000">
+                <div className="bg-white/50 backdrop-blur-xl border border-foreground/5 rounded-[2rem] p-2 md:p-6 shadow-2xl overflow-hidden min-h-[600px] flex items-center justify-center relative">
+                  <div className="absolute inset-0 flex items-center justify-center -z-10 text-[10px] uppercase tracking-widest text-foreground/20 font-bold">
+                    Initializing Form...
+                  </div>
+                  <iframe 
+                    src="https://docs.google.com/forms/d/e/1FAIpQLScgw_eG4OksAxJhydemrh92TwyTo9dIELfOkj3hqxdR18Ordw/viewform?embedded=true" 
+                    width="100%" 
+                    height="700" 
+                    frameBorder="0" 
+                    marginHeight={0} 
+                    marginWidth={0}
+                    className="rounded-2xl"
+                  >
+                    Loading…
+                  </iframe>
+                </div>
+                <button 
+                  onClick={() => setShowAlphaForm(false)}
+                  className="mt-8 text-[9px] uppercase tracking-[0.4em] text-foreground/30 hover:text-accent transition-colors font-bold"
+                >
+                  Return to Overview
+                </button>
+              </div>
+            )}
+          </div>
         </section>
 
         {/* Final Footer */}
         <Footer />
+        
+        {/* Support Agent AI */}
+        <SupportAgent />
       </main>
     </Layout>
   );

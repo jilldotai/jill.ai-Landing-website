@@ -1,3 +1,4 @@
+
 import React, { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -49,13 +50,11 @@ const ScrollVideoSection: React.FC<ScrollVideoSectionProps> = ({
       
       if (!isFooter) {
         // --- HERO MODE: INTRO AUTOPLAY ---
-        // Start at introStart
         video.currentTime = introStart;
         
-        // Autoplay sequence: introStart -> introEnd
         introAnimRef.current = gsap.to(video, {
           currentTime: introEnd,
-          duration: Math.max(2, introEnd - introStart), // Natural speed or minimum 2s
+          duration: Math.max(2, introEnd - introStart), 
           ease: "power2.inOut",
           onStart: () => {
             gsap.to(video, { opacity: 1, duration: 1 });
@@ -73,9 +72,6 @@ const ScrollVideoSection: React.FC<ScrollVideoSectionProps> = ({
     };
 
     const initScrollTrigger = () => {
-      // Determine time ranges based on mode
-      // Hero mode: Scrubs from introEnd (post-autoplay) to scrollEnd
-      // Footer mode: Scrubs from introStart to introEnd (to build up at bottom)
       const startT = isFooter ? introStart : introEnd;
       const endT = isFooter ? introEnd : scrollEnd;
 
@@ -83,17 +79,15 @@ const ScrollVideoSection: React.FC<ScrollVideoSectionProps> = ({
         trigger: container,
         start: isFooter ? "top bottom" : "top top",
         end: isFooter ? "bottom bottom" : "+=300%",
-        pin: !isFooter, // Usually hero is pinned, footer just occupies space or is sticky
+        pin: !isFooter,
         scrub: 1,
         onUpdate: (self) => {
-          // If the intro animation is still playing and user starts scrolling, kill it
           if (introAnimRef.current && introAnimRef.current.isActive()) {
             introAnimRef.current.kill();
           }
 
           const targetTime = startT + (endT - startT) * self.progress;
           
-          // Ultra-smooth scrubbing
           gsap.to(video, {
             currentTime: targetTime,
             duration: 0.1,
@@ -101,7 +95,6 @@ const ScrollVideoSection: React.FC<ScrollVideoSectionProps> = ({
             overwrite: true
           });
 
-          // Sync progress bar if present
           const progressBar = container.querySelector('.progress-bar-inner');
           if (progressBar) {
             gsap.set(progressBar, { scaleX: self.progress });
@@ -111,7 +104,6 @@ const ScrollVideoSection: React.FC<ScrollVideoSectionProps> = ({
     };
 
     video.addEventListener('loadedmetadata', handleVideoReady);
-    // Fallback if already loaded
     if (video.readyState >= 1) handleVideoReady();
 
     return () => {
@@ -128,6 +120,25 @@ const ScrollVideoSection: React.FC<ScrollVideoSectionProps> = ({
       ref={containerRef} 
       className={`relative w-full overflow-hidden bg-black ${isFooter ? 'h-[80vh]' : 'h-screen'}`}
     >
+      <style dangerouslySetInnerHTML={{ __html: `
+        .scroll-content-container h1, 
+        .scroll-content-container h2, 
+        .scroll-content-container h3, 
+        .scroll-content-container button {
+          transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .scroll-content-container h1:hover, 
+        .scroll-content-container h2:hover, 
+        .scroll-content-container h3:hover {
+          transform: scale(1.02);
+          filter: drop-shadow(0 0 15px rgba(212, 141, 93, 0.3));
+        }
+        .scroll-content-container button:hover {
+          transform: translateY(-8px) scale(1.03);
+          box-shadow: 0 20px 40px -10px rgba(212, 141, 93, 0.4);
+        }
+      `}} />
+
       {/* Loading Overlay */}
       {backgroundImage && !isLoaded && (
         <div 
@@ -148,10 +159,12 @@ const ScrollVideoSection: React.FC<ScrollVideoSectionProps> = ({
 
       {/* Interaction Overlay */}
       <div className="absolute inset-0 z-20 flex flex-col items-center justify-center pointer-events-none">
-        {children}
+        <div className="pointer-events-auto scroll-content-container w-full h-full flex flex-col items-center justify-center">
+          {children}
+        </div>
       </div>
 
-      {/* Progress UI (Optional) */}
+      {/* Progress UI */}
       {!isFooter && (
         <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-30 w-48 h-[1px] bg-white/10 overflow-hidden">
           <div className="progress-bar-inner h-full bg-accent w-full origin-left scale-x-0 transition-transform duration-100" />

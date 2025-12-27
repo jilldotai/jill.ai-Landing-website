@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 
 interface NavbarProps {
@@ -24,8 +25,8 @@ const Navbar: React.FC<NavbarProps> = ({ onMenuOpen }) => {
   };
 
   return (
-    <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${
-      isScrolled ? 'bg-black/40 backdrop-blur-md py-4' : 'bg-transparent py-8'
+    <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 bg-transparent ${
+      isScrolled ? 'py-6' : 'py-8'
     }`}>
       <div className="max-w-7xl mx-auto px-8 flex justify-between items-center w-full">
         <div 

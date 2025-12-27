@@ -71,23 +71,34 @@
         inherits: false;
       }
 
+      /* Refined 10s breathing pastel rainbow with smoother, more distinct transitions */
       @keyframes iridescent {
-        0% { --glow-color: hsla(0, 100%, 85%, 0.8); }
-        16% { --glow-color: hsla(30, 100%, 85%, 0.8); }
-        33% { --glow-color: hsla(60, 100%, 85%, 0.8); }
-        50% { --glow-color: hsla(120, 100%, 85%, 0.8); }
-        66% { --glow-color: hsla(210, 100%, 85%, 0.8); }
-        83% { --glow-color: hsla(270, 100%, 85%, 0.8); }
-        100% { --glow-color: hsla(0, 100%, 85%, 0.8); }
+        0%, 100% { --glow-color: hsla(0, 100%, 88%, 0.6); }   /* Pastel Red/Pink */
+        16% { --glow-color: hsla(30, 100%, 88%, 0.85); }     /* Pastel Orange/Peach */
+        33% { --glow-color: hsla(60, 100%, 88%, 0.6); }      /* Pastel Yellow */
+        50% { --glow-color: hsla(140, 100%, 88%, 0.85); }    /* Pastel Green/Mint */
+        66% { --glow-color: hsla(210, 100%, 88%, 0.6); }     /* Pastel Blue */
+        83% { --glow-color: hsla(280, 100%, 88%, 0.85); }    /* Pastel Purple/Lavender */
+      }
+
+      /* Secondary breathing scale animation */
+      @keyframes breathe {
+        0%, 100% { transform: scale(1); opacity: 0.8; }
+        50% { transform: scale(1.15); opacity: 1; }
       }
 
       .glow-pulse {
-        animation: iridescent 10s infinite linear;
-        box-shadow: 0 0 40px 10px var(--glow-color);
+        animation: iridescent 10s infinite ease-in-out;
+        box-shadow: 0 0 35px 8px var(--glow-color);
+      }
+      
+      .main-orb-breathe {
+        animation: breathe 5s infinite ease-in-out;
       }
 
       .cursor-gradient {
-        background: radial-gradient(circle, #fff 0%, var(--glow-color) 35%, transparent 80%);
+        /* Core now matches the orb color for a monolithic light look, transitioning to transparent */
+        background: radial-gradient(circle, var(--glow-color) 0%, var(--glow-color) 45%, transparent 90%);
       }
     </style>
   <script type="importmap">
@@ -98,7 +109,8 @@
     "react": "https://esm.sh/react@^19.2.3",
     "@studio-freight/lenis": "https://esm.sh/@studio-freight/lenis@^1.0.42",
     "gsap/": "https://esm.sh/gsap@^3.14.2/",
-    "gsap": "https://esm.sh/gsap@^3.14.2"
+    "gsap": "https://esm.sh/gsap@^3.14.2",
+    "@google/genai": "https://esm.sh/@google/genai@^1.34.0"
   }
 }
 </script>

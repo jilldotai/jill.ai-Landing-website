@@ -64,7 +64,7 @@ const MenuOverlay: React.FC<MenuOverlayProps> = ({ isOpen, onClose, lenis }) => 
         </div>
       </button>
 
-      <div className="flex flex-col items-center gap-8 md:gap-12">
+      <div className="flex flex-col items-center gap-6 md:gap-10">
         {menuItems.map((item, i) => (
           <div 
             key={item.id}
@@ -73,7 +73,7 @@ const MenuOverlay: React.FC<MenuOverlayProps> = ({ isOpen, onClose, lenis }) => 
           >
             <button 
               onClick={() => handleLinkClick(item.id)}
-              className="text-4xl md:text-7xl font-light tracking-tighter text-white/40 hover:text-white transition-colors duration-500 uppercase"
+              className="text-3xl md:text-4xl font-light tracking-tighter text-white/40 hover:text-white transition-colors duration-500 uppercase"
             >
               {item.label}
             </button>
