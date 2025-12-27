@@ -19,36 +19,43 @@ const Navbar: React.FC<NavbarProps> = ({ onMenuOpen }) => {
   const handleLogoClick = () => {
     if ((window as any).lenis) {
       (window as any).lenis.scrollTo(0, { duration: 1.5 });
-    } else {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   };
 
   return (
-    <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 bg-transparent ${
-      isScrolled ? 'py-6' : 'py-8'
+    <nav className={`fixed top-0 left-0 w-full z-[150] transition-all duration-700 ${
+      isScrolled ? 'py-4 bg-background/80 backdrop-blur-lg border-b border-foreground/5' : 'py-8 bg-transparent'
     }`}>
-      <div className="max-w-7xl mx-auto px-8 flex justify-between items-center w-full">
+      <div className="max-w-[1440px] mx-auto px-8 md:px-12 flex justify-between items-center w-full">
+        {/* LOGO & TYPOGRAPHY LOGO GROUP */}
         <div 
-          className="flex items-center gap-3 group cursor-pointer" 
+          className="flex items-center gap-6 group cursor-pointer" 
           onClick={handleLogoClick}
         >
-          <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" className="transition-transform duration-500 group-hover:rotate-12">
-            <rect width="40" height="40" rx="10" fill="black" />
-            <path d="M12 28V12H16V24H24V28H12Z" fill="#d48d5d" />
-            <circle cx="28" cy="12" r="4" fill="#d48d5d" />
-          </svg>
-          <span className="text-2xl font-semibold tracking-tighter text-white mix-blend-difference">JILL.AI</span>
+          {/* ICON LOGO (Solid Fill White SVG) */}
+          <div className="w-10 h-10 bg-foreground rounded-xl flex items-center justify-center transition-transform duration-500 group-hover:rotate-6">
+            <svg width="24" height="24" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 28V12H16V24H24V28H12Z" fill="white" />
+              <circle cx="28" cy="12" r="4" fill="white" />
+            </svg>
+          </div>
+
+          {/* TYPOGRAPHY LOGO (Solid Fill SVG/Text for Jill.AI) */}
+          <div className="flex flex-col">
+            <span className="text-xl font-bold tracking-[-0.05em] text-foreground leading-none">JILL.AI</span>
+            <span className="text-[7px] uppercase tracking-[0.6em] text-foreground/40 mt-1">Intelligence</span>
+          </div>
         </div>
 
+        {/* MENU TOGGLE */}
         <button 
           onClick={onMenuOpen}
-          className="group flex items-center gap-4 text-xs uppercase tracking-[0.4em] font-bold text-white mix-blend-difference"
+          className="group flex items-center gap-6 text-[10px] uppercase tracking-[0.5em] font-bold text-foreground"
         >
-          <span className="hidden md:block opacity-60 group-hover:opacity-100 transition-opacity">Menu</span>
-          <div className="flex flex-col gap-1.5">
-            <div className="w-8 h-[1px] bg-white transition-all duration-500 group-hover:w-12"></div>
-            <div className="w-5 h-[1px] bg-white transition-all duration-500 group-hover:w-12 self-end"></div>
+          <span className="hidden md:block opacity-40 group-hover:opacity-100 transition-opacity">Node Menu</span>
+          <div className="flex flex-col gap-1.5 w-10">
+            <div className="w-full h-[1.5px] bg-foreground transition-all duration-500 group-hover:translate-y-[-2px]"></div>
+            <div className="w-2/3 h-[1.5px] bg-foreground transition-all duration-500 group-hover:w-full self-end"></div>
           </div>
         </button>
       </div>

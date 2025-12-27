@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -10,9 +11,10 @@
         theme: {
           extend: {
             colors: {
-              background: '#fcfaf7',
-              foreground: '#1a1a1a',
+              background: '#faf9f8',
+              foreground: '#0a0a0a',
               accent: '#d48d5d',
+              lumi: '#d946ef',
             },
             fontFamily: {
               sans: ['Inter', 'system-ui', 'sans-serif'],
@@ -23,82 +25,56 @@
       };
     </script>
     <style>
-      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap');
+      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
       
-      /* Lenis Recommended CSS */
-      html.lenis {
-        height: auto;
-      }
-      
-      .lenis.lenis-smooth {
-        scroll-behavior: auto;
-      }
-      
-      .lenis.lenis-smooth [data-lenis-prevent] {
-        overscroll-behavior: contain;
-      }
-      
-      .lenis.lenis-stopped {
-        overflow: hidden;
-      }
-      
-      .lenis.lenis-scrolling iframe {
-        pointer-events: none;
-      }
+      html.lenis { height: auto; }
+      .lenis.lenis-smooth { scroll-behavior: auto; }
+      .lenis.lenis-stopped { overflow: hidden; }
 
       body {
         margin: 0;
         padding: 0;
-        background-color: #fcfaf7;
-        color: #1a1a1a;
+        background-color: #faf9f8;
+        color: #0a0a0a;
         width: 100%;
-        min-height: 100vh;
-        /* Prevent browser bounce/overscroll which can break scroll libraries */
         overscroll-behavior: none;
         -webkit-font-smoothing: antialiased;
       }
 
-      /* Cursor behavior */
       @media (pointer: fine) {
-        body, a, button, input, textarea, select {
-          cursor: none !important;
-        }
+        body, a, button, input, textarea, select { cursor: none !important; }
       }
 
       @property --glow-color {
         syntax: '<color>';
-        initial-value: hsla(0, 100%, 85%, 0.7);
+        initial-value: hsla(280, 100%, 85%, 0.4);
         inherits: false;
       }
 
-      /* Refined 10s breathing pastel rainbow with smoother, more distinct transitions */
+      /* Lumi-themed iridescent breathing */
       @keyframes iridescent {
-        0%, 100% { --glow-color: hsla(0, 100%, 88%, 0.6); }   /* Pastel Red/Pink */
-        16% { --glow-color: hsla(30, 100%, 88%, 0.85); }     /* Pastel Orange/Peach */
-        33% { --glow-color: hsla(60, 100%, 88%, 0.6); }      /* Pastel Yellow */
-        50% { --glow-color: hsla(140, 100%, 88%, 0.85); }    /* Pastel Green/Mint */
-        66% { --glow-color: hsla(210, 100%, 88%, 0.6); }     /* Pastel Blue */
-        83% { --glow-color: hsla(280, 100%, 88%, 0.85); }    /* Pastel Purple/Lavender */
+        0%, 100% { --glow-color: hsla(280, 80%, 85%, 0.4); }   /* Lavender */
+        25% { --glow-color: hsla(320, 80%, 85%, 0.6); }      /* Lumi Pink */
+        50% { --glow-color: hsla(190, 80%, 85%, 0.4); }      /* Cyan Glow */
+        75% { --glow-color: hsla(260, 80%, 85%, 0.6); }      /* Deep Purple */
       }
 
-      /* Secondary breathing scale animation */
       @keyframes breathe {
-        0%, 100% { transform: scale(1); opacity: 0.8; }
-        50% { transform: scale(1.15); opacity: 1; }
+        0%, 100% { transform: scale(1); opacity: 0.6; }
+        50% { transform: scale(1.1); opacity: 0.9; }
       }
 
       .glow-pulse {
-        animation: iridescent 10s infinite ease-in-out;
-        box-shadow: 0 0 35px 8px var(--glow-color);
+        animation: iridescent 8s infinite ease-in-out;
+        box-shadow: 0 0 40px 10px var(--glow-color);
       }
       
       .main-orb-breathe {
-        animation: breathe 5s infinite ease-in-out;
+        animation: breathe 4s infinite ease-in-out;
       }
 
       .cursor-gradient {
-        /* Core now matches the orb color for a monolithic light look, transitioning to transparent */
-        background: radial-gradient(circle, var(--glow-color) 0%, var(--glow-color) 45%, transparent 90%);
+        background: radial-gradient(circle, var(--glow-color) 0%, var(--glow-color) 40%, transparent 85%);
       }
     </style>
   <script type="importmap">
@@ -117,7 +93,6 @@
 </head>
   <body>
     <div id="root"></div>
-    <!-- CRITICAL: Load the React application -->
     <script type="module" src="./index.tsx"></script>
   </body>
 </html>
