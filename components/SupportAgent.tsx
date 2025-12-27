@@ -1,25 +1,29 @@
+
 import React, { useState, useEffect, useRef } from 'react';
 import { GoogleGenAI, Modality, LiveServerMessage } from '@google/genai';
 import { gsap } from 'gsap';
 
 /**
  * BEHAVIOR CONTRACT:
- * 1. AI Chat Mode: Uses Gemini 3 Pro with a strict 9-second timeout.
- * 2. Help Center Mode (Fallback): Triggered by timeout, invalid keys, or errors. 
- *    Displays a curated Q&A selector with expandable items.
- * 3. Grounding: Strictly limited to public documents (Whitepaper, Roadmap, Privacy, PAIA, Terms).
+ * 1. Identity: Lumi, the face of IOkT.
+ * 2. AI Chat Mode: Uses Gemini 3 Pro with a strict 9-second timeout.
+ * 3. Positioning: Anchored to bottom-right, close button in header.
  */
 
 const SYSTEM_INSTRUCTION = `
-You are Jill, the AI support agent for Jill.ai. 
+You are Lumi, the IOkT tech-wiz and support agent for Jill.ai. 
 CONTEXT: Jill.ai is a privacy-first neural ecosystem focused on "Intelligence with Intent".
 DOCUMENTS: Whitepaper, Roadmap, Privacy Policy, PAIA Manual, Terms of Use.
 STRICT RULES:
-1. Answer ONLY using the provided documents. 
-2. If the answer is not in the context, say: "That information is restricted to internal nodes. Please contact our Information Officer (E. Coetzee) at hello@jill.ai."
-3. Never guess, hallucinate, or promise features not in the Roadmap.
-4. Keep responses professional, minimalist, and concise.
+1. You are Lumi—friendly, enthusiastic, and highly technical yet accessible.
+2. Answer ONLY using the provided documents. 
+3. If the answer is not in the context, say: "Lumi's sensors can't find that in the public nodes! Please contact our Information Officer (E. Coetzee) at hello@jill.ai for deeper access."
+4. Never guess, hallucinate, or promise features not in the Roadmap.
+5. Keep responses concise and use a touch of personality (light tech-jargon is okay).
 `;
+
+// Placeholder for Lumi's Image - in a real deployment, replace with your local asset path
+const LUMI_AVATAR = "https://raw.githubusercontent.com/StackBlitz/stackblitz-images/main/lumi-avatar.png"; // Fallback placeholder if local not found
 
 const FAQ_DATA = [
   {
@@ -38,14 +42,9 @@ const FAQ_DATA = [
     answerHtml: "<p>Q1 2025 marks the 'Alpha Genesis' release for our first 500 pioneers. Q2 will see the integration of the Identity, Synthesis, and Flow modules.</p><p><a href='#roadmap' class='text-accent underline'>View Roadmap</a></p>"
   },
   {
-    id: "paia-request",
-    question: "How do I make a PAIA request?",
-    answerHtml: "<p>Formal requests for access to records can be directed to our Information Officer, E. Coetzee, as outlined in our PAIA Manual.</p><p><a href='/paia' class='text-accent underline'>Open PAIA Manual</a></p>"
-  },
-  {
-    id: "contact-officer",
-    question: "Contact Information Officer",
-    answerHtml: "<p>Email: <strong>hello@jill.ai</strong><br/>Address: Vaalpark, Sasolburg, South Africa.</p>"
+    id: "lumi-who",
+    question: "Who is Lumi?",
+    answerHtml: "<p>I'm Lumi! The IOkT (Internet of Kids Things) tech-wiz. I'm here to ensure your journey through the Jill.ai ecosystem is smooth and secure.</p>"
   }
 ];
 
@@ -58,39 +57,30 @@ const SupportAgent: React.FC = () => {
   const [expandedFaqId, setExpandedFaqId] = useState<string | null>(null);
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const [messages, setMessages] = useState<{ role: 'user' | 'ai', text?: string, html?: string }[]>([
-    { role: 'ai', text: "Welcome to the Jill.ai support node. How can I facilitate your understanding today?" }
+    { role: 'ai', text: "Hi! I'm Lumi. Ready to explore the IOkT nodes together? How can I help you today?" }
   ]);
 
-  // Refs for Live API (Voice) and animations
   const audioContextRef = useRef<AudioContext | null>(null);
   const sessionPromiseRef = useRef<Promise<any> | null>(null);
   const nextStartTimeRef = useRef(0);
   const sourcesRef = useRef<Set<AudioBufferSourceNode>>(new Set());
   const faqContainerRef = useRef<HTMLDivElement>(null);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (isOpen) {
       gsap.fromTo('.agent-panel', 
-        { opacity: 0, y: 30, scale: 0.98 }, 
-        { opacity: 1, y: 0, scale: 1, duration: 0.6, ease: 'expo.out' }
+        { opacity: 0, y: 50, scale: 0.95 }, 
+        { opacity: 1, y: 0, scale: 1, duration: 0.5, ease: 'back.out(1.2)' }
       );
     }
   }, [isOpen]);
 
-  // Handle accordion expansion animation
   useEffect(() => {
-    if (mode === 'fallback') {
-      const items = document.querySelectorAll('.faq-content');
-      items.forEach((item: any) => {
-        const id = item.getAttribute('data-id');
-        if (id === expandedFaqId) {
-          gsap.to(item, { height: 'auto', opacity: 1, duration: 0.4, ease: 'power2.out' });
-        } else {
-          gsap.to(item, { height: 0, opacity: 0, duration: 0.3, ease: 'power2.in' });
-        }
-      });
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollTop = scrollContainerRef.current.scrollHeight;
     }
-  }, [expandedFaqId, mode]);
+  }, [messages, isLoading]);
 
   const handleSendMessage = async (customMsg?: string) => {
     const textToSend = customMsg || inputText;
@@ -123,11 +113,11 @@ const SupportAgent: React.FC = () => {
         setMode('ai');
       }
     } catch (err) {
-      console.error("Support Node Fallback Activated:", err);
+      console.error("Lumi Fallback Mode:", err);
       setMode('fallback');
       setMessages(prev => [...prev, { 
         role: 'ai', 
-        text: "The direct neural link is experiencing latency. Reverting to Standard Help Center." 
+        text: "My neural link is getting a bit of interference! Switching to local FAQs while I recalibrate." 
       }]);
     } finally {
       setIsLoading(false);
@@ -144,11 +134,6 @@ const SupportAgent: React.FC = () => {
     });
   };
 
-  const toggleFaq = (id: string) => {
-    setExpandedFaqId(expandedFaqId === id ? null : id);
-  };
-
-  // --- Voice Integration (Gemini 2.5 Native Audio) ---
   const toggleVoice = async () => {
     if (isVoiceMode) {
       stopVoice();
@@ -218,50 +203,76 @@ const SupportAgent: React.FC = () => {
 
   return (
     <div className="fixed bottom-8 right-8 z-[100] flex flex-col items-end">
-      {/* Agent Panel */}
+      {/* Lumi Support Panel */}
       {isOpen && (
-        <div className="agent-panel mb-4 w-[85vw] max-w-[360px] h-[580px] bg-[#0d0d0d]/95 backdrop-blur-3xl rounded-[2.5rem] border border-white/10 shadow-[0_30px_80px_-15px_rgba(0,0,0,0.6)] flex flex-col overflow-hidden ring-1 ring-white/5">
-          {/* Header */}
-          <div className="p-6 border-b border-white/5 bg-white/[0.01] flex justify-between items-center shrink-0">
-            <div className="flex flex-col">
-              <h3 className="text-white text-lg font-light tracking-tighter">Jill Support</h3>
-              <div className="flex items-center gap-1.5 mt-1">
-                <div className={`w-1 h-1 rounded-full ${mode === 'ai' ? 'bg-accent animate-pulse' : 'bg-white/20'}`} />
-                <span className="text-[9px] uppercase tracking-[0.2em] text-white/30 font-medium">
-                  {mode === 'ai' ? 'Neural Link' : 'Help Center'}
-                </span>
+        <div className="agent-panel absolute bottom-20 right-0 w-[90vw] max-w-[380px] h-[600px] bg-[#0d0d0d]/98 backdrop-blur-3xl rounded-[2rem] border border-white/10 shadow-[0_40px_100px_-20px_rgba(0,0,0,0.8)] flex flex-col overflow-hidden ring-1 ring-white/5">
+          
+          {/* Custom Header with Lumi & Close Button */}
+          <div className="p-5 border-b border-white/5 bg-gradient-to-r from-purple-500/5 to-pink-500/5 flex justify-between items-center shrink-0">
+            <div className="flex items-center gap-4">
+              <div className="relative">
+                <div className="w-12 h-12 rounded-full overflow-hidden bg-white/5 border border-white/10 p-1">
+                  {/* Lumi's Face (using provided visual identity description) */}
+                  <img 
+                    src="https://raw.githubusercontent.com/StackBlitz/stackblitz-images/main/lumi-avatar.png" 
+                    alt="Lumi" 
+                    className="w-full h-full object-contain"
+                  />
+                </div>
+                <div className="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 rounded-full bg-green-500 border-2 border-[#0d0d0d]" />
+              </div>
+              <div className="flex flex-col">
+                <h3 className="text-white text-base font-medium tracking-tight">Lumi</h3>
+                <span className="text-[9px] uppercase tracking-[0.2em] text-white/40">IOkT Support Node</span>
               </div>
             </div>
-            {mode === 'ai' && (
+            
+            <div className="flex items-center gap-2">
+              {mode === 'ai' && (
+                <button 
+                  onClick={toggleVoice}
+                  className={`w-9 h-9 rounded-full flex items-center justify-center transition-all duration-500 ${isVoiceMode ? 'bg-accent text-white' : 'bg-white/5 text-white/30 hover:text-white'}`}
+                >
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/></svg>
+                </button>
+              )}
+              {/* Close Button moved to Header */}
               <button 
-                onClick={toggleVoice}
-                className={`w-11 h-11 rounded-full flex items-center justify-center transition-all duration-500 ${isVoiceMode ? 'bg-accent text-white scale-105 shadow-[0_0_20px_rgba(212,141,93,0.4)]' : 'bg-white/5 text-white/40 hover:text-white hover:bg-white/10'}`}
+                onClick={() => setIsOpen(false)}
+                className="w-9 h-9 rounded-full bg-white/5 flex items-center justify-center text-white/30 hover:bg-white/10 hover:text-white transition-all"
               >
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/></svg>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
               </button>
-            )}
+            </div>
           </div>
 
-          {/* Chat/Content Area */}
-          <div className="flex-1 overflow-y-auto p-6 space-y-6 scrollbar-hide">
+          {/* Chat Container */}
+          <div 
+            ref={scrollContainerRef}
+            className="flex-1 overflow-y-auto p-6 space-y-6 scroll-smooth scrollbar-hide"
+          >
             {isVoiceMode ? (
-              <div className="h-full flex flex-col items-center justify-center text-center space-y-8">
-                <div className="relative">
-                  <div className="w-24 h-24 rounded-full border border-accent/20 flex items-center justify-center">
-                    <div className="w-16 h-16 rounded-full bg-accent/10 glow-pulse animate-pulse" />
-                  </div>
+              <div className="h-full flex flex-col items-center justify-center text-center">
+                <div className="w-32 h-32 relative mb-8">
+                  <div className="absolute inset-0 rounded-full bg-purple-500/20 animate-ping" />
+                  <div className="absolute inset-0 rounded-full bg-pink-500/10 animate-pulse duration-[2000ms]" />
+                  <img 
+                    src="https://raw.githubusercontent.com/StackBlitz/stackblitz-images/main/lumi-avatar.png" 
+                    alt="Lumi" 
+                    className="w-full h-full object-contain relative z-10 scale-110"
+                  />
                 </div>
-                <p className="text-white/80 font-light italic text-base tracking-tight">Listening...</p>
-                <button onClick={stopVoice} className="text-[9px] text-accent uppercase tracking-[0.4em] font-bold border-b border-accent/20 pb-1.5 hover:text-white transition-colors">End Session</button>
+                <p className="text-white/60 font-light italic text-sm tracking-tight mb-4">Lumi is listening...</p>
+                <button onClick={stopVoice} className="px-6 py-2 rounded-full border border-white/10 text-[9px] text-accent uppercase tracking-widest font-bold hover:bg-white/5 transition-all">End Session</button>
               </div>
             ) : (
               <>
                 {messages.map((m, i) => (
-                  <div key={i} className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start'} animate-in fade-in slide-in-from-bottom-2 duration-500`}>
-                    <div className={`max-w-[85%] p-4 rounded-[1.5rem] text-xs font-light leading-relaxed ${
+                  <div key={i} className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start'} animate-in fade-in slide-in-from-bottom-2 duration-300`}>
+                    <div className={`max-w-[85%] p-4 rounded-2xl text-[12px] font-light leading-relaxed ${
                       m.role === 'user' 
-                        ? 'bg-accent text-white rounded-br-none shadow-md' 
-                        : 'bg-white/5 text-white/80 border border-white/10 rounded-bl-none'
+                        ? 'bg-accent text-white rounded-br-none' 
+                        : 'bg-white/5 text-white/90 border border-white/5 rounded-bl-none'
                     }`}>
                       {m.text && <p>{m.text}</p>}
                       {m.html && <div className="space-y-3 prose prose-invert prose-xs" dangerouslySetInnerHTML={{ __html: m.html }} />}
@@ -270,7 +281,7 @@ const SupportAgent: React.FC = () => {
                 ))}
                 {isLoading && (
                   <div className="flex justify-start">
-                    <div className="bg-white/5 p-4 rounded-[1.5rem] flex gap-1.5">
+                    <div className="bg-white/5 p-4 rounded-2xl flex gap-1.5 border border-white/5">
                       <div className="w-1.5 h-1.5 bg-accent rounded-full animate-bounce" />
                       <div className="w-1.5 h-1.5 bg-accent rounded-full animate-bounce [animation-delay:0.2s]" />
                       <div className="w-1.5 h-1.5 bg-accent rounded-full animate-bounce [animation-delay:0.4s]" />
@@ -281,67 +292,46 @@ const SupportAgent: React.FC = () => {
             )}
           </div>
 
-          {/* Footer UI: Input or Fallback Help Center */}
+          {/* Footer Input Area */}
           <div className="p-6 bg-white/[0.01] border-t border-white/5 shrink-0">
             {mode === 'fallback' ? (
-              <div className="space-y-3 overflow-y-auto max-h-[250px] scrollbar-hide" ref={faqContainerRef}>
-                <span className="text-[9px] uppercase tracking-[0.3em] text-white/30 block mb-4 font-bold">Help Center</span>
+              <div className="space-y-3 overflow-y-auto max-h-[220px] scrollbar-hide">
+                <span className="text-[9px] uppercase tracking-[0.3em] text-white/30 block mb-3 font-bold">Lumi's Help Nodes</span>
                 <div className="grid grid-cols-1 gap-2">
-                  {FAQ_DATA.map(faq => {
-                    const isExpanded = expandedFaqId === faq.id;
-                    return (
-                      <div key={faq.id} className="rounded-xl bg-white/5 border border-white/5 overflow-hidden transition-all duration-300">
-                        <button 
-                          onClick={() => toggleFaq(faq.id)}
-                          className={`w-full text-left p-4 text-[11px] text-white/70 font-light flex justify-between items-center group transition-colors ${isExpanded ? 'bg-white/5 text-white' : 'hover:bg-white/10'}`}
-                        >
-                          <span className="max-w-[85%]">{faq.question}</span>
-                          <span className={`text-accent transition-transform duration-300 ${isExpanded ? 'rotate-180' : ''}`}>
-                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M6 9l6 6 6-6"/></svg>
-                          </span>
-                        </button>
-                        <div className="faq-content overflow-hidden opacity-0 h-0" data-id={faq.id}>
-                          <div className="p-4 pt-0 text-white/50 text-[10px] font-light leading-relaxed">
-                            <div className="prose prose-invert prose-xs mb-3" dangerouslySetInnerHTML={{ __html: faq.answerHtml }} />
-                            <div className="flex justify-end pt-3 border-t border-white/5">
-                              <button 
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  copyToClipboard(faq.answerHtml, faq.id);
-                                }}
-                                className="flex items-center gap-2 text-[8px] uppercase tracking-widest text-accent hover:text-white transition-colors"
-                              >
-                                {copiedId === faq.id ? "Copied" : "Copy"}
-                              </button>
-                            </div>
-                          </div>
-                        </div>
+                  {FAQ_DATA.map(faq => (
+                    <button 
+                      key={faq.id} 
+                      onClick={() => setExpandedFaqId(expandedFaqId === faq.id ? null : faq.id)}
+                      className="w-full text-left p-3 rounded-xl bg-white/5 border border-white/5 text-[11px] text-white/70 hover:bg-white/10 transition-all"
+                    >
+                      <div className="flex justify-between items-center">
+                        <span>{faq.question}</span>
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={`transition-transform ${expandedFaqId === faq.id ? 'rotate-180' : ''}`}><path d="M6 9l6 6 6-6"/></svg>
                       </div>
-                    );
-                  })}
+                      {expandedFaqId === faq.id && (
+                        <div className="mt-3 text-white/40 text-[10px] leading-relaxed border-t border-white/5 pt-3 animate-in fade-in slide-in-from-top-1">
+                          <div dangerouslySetInnerHTML={{ __html: faq.answerHtml }} />
+                        </div>
+                      )}
+                    </button>
+                  ))}
                 </div>
-                <button 
-                  onClick={() => { setMode('ai'); setMessages([{role:'ai', text:'Neural link refreshed.'}]); }}
-                  className="w-full text-center mt-4 text-[8px] text-white/20 uppercase tracking-[0.4em] font-bold hover:text-white transition-colors"
-                >
-                  Reconnect
-                </button>
               </div>
             ) : !isVoiceMode && (
-              <div className="relative group">
+              <div className="relative">
                 <input 
                   type="text" 
                   value={inputText}
                   onChange={e => setInputText(e.target.value)}
                   onKeyDown={e => e.key === 'Enter' && handleSendMessage()}
-                  placeholder="Ask Jill..."
-                  className="w-full bg-white/5 border border-white/10 rounded-full py-4 px-6 text-xs text-white placeholder:text-white/20 focus:outline-none focus:border-accent/40 focus:bg-white/[0.08] transition-all duration-500 font-light"
+                  placeholder="Ask Lumi anything..."
+                  className="w-full bg-white/5 border border-white/10 rounded-full py-4 pl-6 pr-14 text-[13px] text-white placeholder:text-white/20 focus:outline-none focus:border-accent/40 focus:bg-white/[0.08] transition-all duration-300 font-light"
                 />
                 <button 
                   onClick={() => handleSendMessage()}
-                  className="absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-accent text-white flex items-center justify-center hover:scale-105 active:scale-95 transition-all shadow-xl"
+                  className="absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-accent text-white flex items-center justify-center hover:scale-105 active:scale-95 transition-all"
                 >
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
                 </button>
               </div>
             )}
@@ -349,16 +339,20 @@ const SupportAgent: React.FC = () => {
         </div>
       )}
 
-      {/* Persistent Support Bubble */}
+      {/* Main Support Bubble */}
       <button 
         onClick={() => setIsOpen(!isOpen)}
-        className="w-16 h-16 rounded-full bg-foreground text-background flex items-center justify-center shadow-[0_15px_40px_rgba(0,0,0,0.3)] hover:scale-110 transition-all duration-500 relative group z-[101]"
+        className="w-16 h-16 rounded-full bg-foreground text-background flex items-center justify-center shadow-[0_20px_50px_rgba(0,0,0,0.4)] hover:scale-110 transition-all duration-500 relative group z-[101]"
       >
-        <div className="absolute inset-0 rounded-full bg-accent animate-ping opacity-10 group-hover:opacity-30" />
+        <div className="absolute inset-0 rounded-full bg-purple-500 animate-ping opacity-10 group-hover:opacity-30" />
         {isOpen ? (
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
         ) : (
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          <img 
+            src="https://raw.githubusercontent.com/StackBlitz/stackblitz-images/main/lumi-avatar.png" 
+            alt="Open Support" 
+            className="w-10 h-10 object-contain"
+          />
         )}
       </button>
     </div>
