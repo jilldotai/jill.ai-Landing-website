@@ -32,6 +32,11 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     }
     requestAnimationFrame(raf);
 
+    // Ensure GSAP knows about the page layout after mounting
+    setTimeout(() => {
+      ScrollTrigger.refresh();
+    }, 500);
+
     return () => {
       lenisInstance.destroy();
       delete (window as any).lenis;
@@ -39,15 +44,18 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   }, []);
 
   return (
-    <div className="min-h-screen selection:bg-accent selection:text-white">
+    <div className="min-h-screen selection:bg-accent selection:text-white bg-transparent">
+      <div className="atmosphere" />
       <GlowingCursor />
       <Navbar onMenuOpen={() => setIsMenuOpen(true)} />
-      <MenuOverlay 
-        isOpen={isMenuOpen} 
-        onClose={() => setIsMenuOpen(false)} 
+      <MenuOverlay
+        isOpen={isMenuOpen}
+        onClose={() => setIsMenuOpen(false)}
         lenis={lenis}
       />
-      {children}
+      <div className="relative z-10 w-full">
+        {children}
+      </div>
     </div>
   );
 };

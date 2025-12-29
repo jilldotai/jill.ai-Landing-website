@@ -1,52 +1,64 @@
-
-import React, { useState, useEffect } from 'react';
-import ScrollVideoSection from './ScrollVideoSection';
+import React, { useState } from 'react';
 import LegalOverlay from './LegalOverlay';
 
 const Footer: React.FC = () => {
   const [activeDoc, setActiveDoc] = useState<'privacy' | 'paia' | 'terms' | null>(null);
-  const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    const checkMedia = () => setIsMobile(window.innerWidth < 768);
-    checkMedia();
-    window.addEventListener('resize', checkMedia);
-    return () => window.removeEventListener('resize', checkMedia);
-  }, []);
-
-  const videoSrc = isMobile ? "/assets/videos/hero-mobile.webm" : "/assets/videos/hero-desktop.webm";
-  const bgImage = isMobile ? "/assets/images/bg-mobile.jpg" : "/assets/images/bg-desktop.jpg";
 
   return (
     <footer className="relative w-full">
-      <ScrollVideoSection
-        videoSrc={videoSrc}
-        introEnd={0}
-        scrollEnd={10} // Adjusting to ensure we scrub through the full sequence
-        isFooter={true}
-        backgroundImage={bgImage}
-      >
-        <div className="absolute inset-0 z-30 flex flex-col justify-end pointer-events-none">
-          <div className="w-full bg-[#050505]/90 backdrop-blur-3xl border-t border-white/5 p-12 md:p-20 pointer-events-auto">
-            <div className="max-w-[1440px] mx-auto">
-              <div className="flex flex-col md:flex-row justify-between items-end gap-16 mb-20">
-                <div className="flex flex-col gap-6">
-                  <span className="text-5xl md:text-8xl font-bold tracking-tighter text-white">JILL.AI</span>
-                  <p className="text-[10px] uppercase tracking-[0.6em] text-white/30 font-medium">Restoring Human Agency. Period.</p>
+      <div className="w-full bg-[#050505]/95 backdrop-blur-3xl border-t border-white/5 p-8 md:p-12 relative z-30">
+        <div className="max-w-[1440px] mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-12 items-end">
+            <div className="flex flex-col gap-4">
+              <span className="text-5xl md:text-8xl font-bold tracking-tighter text-white">JILL.AI</span>
+              <p className="text-[10px] uppercase tracking-[0.6em] text-white/30 font-medium">Restoring Human Agency. Period.</p>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-12 gap-y-4 mt-8 pt-8 border-t border-white/5 text-[9px] uppercase tracking-widest text-white/40">
+                <div>
+                  <p className="text-white/20 mb-1">Entity</p>
+                  <p>JillAI (Pty) Ltd t/a jill.ai</p>
+                  <p className="mt-2 text-white/20 mb-1">Registration</p>
+                  <p>2025 / 631008 / 07</p>
                 </div>
-                <div className="flex flex-col gap-4 text-right">
-                  <nav className="flex gap-10 text-[10px] font-bold uppercase tracking-[0.4em] text-white/40 mb-6">
-                    <button onClick={() => setActiveDoc('privacy')} className="hover:text-accent transition-colors">Privacy</button>
-                    <button onClick={() => setActiveDoc('paia')} className="hover:text-accent transition-colors">PAIA</button>
-                    <button onClick={() => setActiveDoc('terms')} className="hover:text-accent transition-colors">Terms</button>
-                  </nav>
-                  <p className="text-[9px] uppercase tracking-widest text-white/20">© 2025 JillAI (Pty) Ltd. T/A Jill.AI. Reg: 2025/631008/07</p>
+                <div>
+                  <p className="text-white/20 mb-1">Tax / VAT</p>
+                  <p>9976067190</p>
+                  <p className="mt-2 text-white/20 mb-1">Regulator Reg</p>
+                  <p>2025-068501</p>
+                </div>
+                <div className="sm:col-span-2 mt-4 text-[8px] opacity-30 leading-relaxed font-light normal-case">
+                  Directors: E. Coetzee • Information Officer: E. Coetzee<br />
+                  Physical Address: Vaalpark, Sasolburg, Freestate, South Africa
                 </div>
               </div>
             </div>
+
+            <div className="flex flex-col gap-8 md:items-end">
+              <nav className="flex flex-wrap gap-8 text-[10px] font-bold uppercase tracking-[0.4em]">
+                <button
+                  onClick={() => setActiveDoc('privacy')}
+                  className="text-white/40 hover:text-white hover:drop-shadow-[0_0_8px_rgba(34,211,238,0.8)] transition-all duration-500"
+                >
+                  Privacy Policy
+                </button>
+                <button
+                  onClick={() => setActiveDoc('paia')}
+                  className="text-white/40 hover:text-white hover:drop-shadow-[0_0_8px_rgba(217,70,239,0.8)] transition-all duration-500"
+                >
+                  PAIA Manual
+                </button>
+                <button
+                  onClick={() => setActiveDoc('terms')}
+                  className="text-white/40 hover:text-white hover:drop-shadow-[0_0_8px_rgba(34,211,238,0.8)] transition-all duration-500"
+                >
+                  Terms of Use
+                </button>
+              </nav>
+              <p className="text-[9px] uppercase tracking-[0.4em] text-white/10 mt-4">© 2025 Jill.AI. All Rights Reserved.</p>
+            </div>
           </div>
         </div>
-      </ScrollVideoSection>
+      </div>
       <LegalOverlay isOpen={activeDoc !== null} onClose={() => setActiveDoc(null)} title={activeDoc || ''} content={null} />
     </footer>
   );

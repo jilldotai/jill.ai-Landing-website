@@ -1,4 +1,3 @@
-
 import React, { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -10,6 +9,7 @@ interface ScrollVideoSectionProps {
   introEnd: number;
   scrollEnd: number;
   isFooter?: boolean;
+  fadeOnScroll?: boolean;
   backgroundImage?: string;
   children?: React.ReactNode;
 }
@@ -21,26 +21,26 @@ const ScrollVideoSection: React.FC<ScrollVideoSectionProps> = ({
   introEnd,
   scrollEnd,
   isFooter = false,
+  fadeOnScroll = false,
   backgroundImage,
   children
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isLoaded, setIsLoaded] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
+  const [isPortrait, setIsPortrait] = useState(false);
   const introAnimRef = useRef<gsap.core.Tween | null>(null);
 
   useEffect(() => {
-    const checkMedia = () => {
-      const mobile = window.innerWidth < 768;
-      if (mobile !== isMobile) setIsMobile(mobile);
+    const checkOrientation = () => {
+      setIsPortrait(window.innerHeight > window.innerWidth && window.innerWidth < 768);
     };
-    checkMedia();
-    window.addEventListener('resize', checkMedia);
-    return () => window.removeEventListener('resize', checkMedia);
-  }, [isMobile]);
+    checkOrientation();
+    window.addEventListener('resize', checkOrientation);
+    return () => window.removeEventListener('resize', checkOrientation);
+  }, []);
 
-  const finalSrc = isMobile && mobileVideoSrc ? mobileVideoSrc : videoSrc;
+  const finalSrc = isPortrait && mobileVideoSrc ? mobileVideoSrc : videoSrc;
 
   useEffect(() => {
     const video = videoRef.current;
@@ -50,15 +50,17 @@ const ScrollVideoSection: React.FC<ScrollVideoSectionProps> = ({
     const handleVideoReady = () => {
       setIsLoaded(true);
       if (!isFooter) {
+        // Hero Mode: Autoplay Intro then enable ScrollTrigger
         video.currentTime = introStart;
         introAnimRef.current = gsap.to(video, {
           currentTime: introEnd,
-          duration: 2.5,
+          duration: 3,
           ease: "power2.inOut",
-          onStart: () => gsap.to(video, { opacity: 1, duration: 1.5 }),
-          onComplete: () => initScrollTrigger()
+          onStart: () => gsap.to(video, { opacity: 1, duration: 1.5 })
         });
+        initScrollTrigger(); // Init immediately so scrub is ready
       } else {
+        // Footer Mode: No Autoplay, start at introStart
         video.currentTime = introStart;
         gsap.set(video, { opacity: 1 });
         initScrollTrigger();
@@ -74,30 +76,51 @@ const ScrollVideoSection: React.FC<ScrollVideoSectionProps> = ({
         start: isFooter ? "top bottom" : "top top",
         end: isFooter ? "bottom bottom" : "+=350%",
         pin: !isFooter,
-        scrub: 1.5,
+        scrub: true,
         onUpdate: (self) => {
-          if (introAnimRef.current?.isActive()) introAnimRef.current.kill();
+          // If the intro is still playing and user scrolls, kill it to let them take control
+          if (introAnimRef.current?.isActive() && self.progress > 0.01) {
+            introAnimRef.current.kill();
+          }
+
           const targetTime = startT + (endT - startT) * self.progress;
-          
+
+          // Butter-smooth scrubbing with a slight ease
           gsap.to(video, {
             currentTime: targetTime,
-            duration: 0.05,
-            ease: "none",
+            duration: 0.1,
+            ease: "power1.out",
             overwrite: true
           });
 
+          // Handle Landing Fade Out
+          if (fadeOnScroll) {
+            // Start fading after 10% scroll, complete by 90%
+            const fadeStart = 0.1;
+            const fadeEnd = 0.9;
+            const opacity = self.progress < fadeStart ? 1 :
+              self.progress > fadeEnd ? 0 :
+                1 - (self.progress - fadeStart) / (fadeEnd - fadeStart);
+
+            gsap.to(video, {
+              opacity: opacity,
+              duration: 0.3,
+              overwrite: 'auto'
+            });
+          }
+
           if (isFooter && self.progress >= 0.99) {
-             video.currentTime = endT; // Ensure we land exactly on the final frame
+            video.currentTime = endT; // Ensure we land perfectly on the final frame
           }
         }
       });
     };
 
-    video.addEventListener('loadedmetadata', handleVideoReady);
-    if (video.readyState >= 2) handleVideoReady();
+    video.addEventListener('canplaythrough', handleVideoReady);
+    if (video.readyState >= 4) handleVideoReady();
 
     return () => {
-      video.removeEventListener('loadedmetadata', handleVideoReady);
+      video.removeEventListener('canplaythrough', handleVideoReady);
       if (introAnimRef.current) introAnimRef.current.kill();
       ScrollTrigger.getAll().forEach(st => {
         if (st.trigger === container) st.kill();
@@ -106,13 +129,13 @@ const ScrollVideoSection: React.FC<ScrollVideoSectionProps> = ({
   }, [finalSrc, isFooter, introStart, introEnd, scrollEnd]);
 
   return (
-    <div 
-      ref={containerRef} 
-      className={`relative w-full overflow-hidden bg-black ${isFooter ? 'h-screen' : 'h-screen'}`}
+    <div
+      ref={containerRef}
+      className="relative w-full h-screen overflow-hidden bg-transparent"
     >
-      {backgroundImage && !isLoaded && (
-        <div 
-          className="absolute inset-0 z-0 bg-cover bg-center transition-opacity duration-1000"
+      {(backgroundImage && (!isLoaded || fadeOnScroll)) && (
+        <div
+          className="absolute inset-0 z-0 bg-cover bg-center"
           style={{ backgroundImage: `url(${backgroundImage})` }}
         />
       )}
@@ -127,7 +150,7 @@ const ScrollVideoSection: React.FC<ScrollVideoSectionProps> = ({
       />
 
       <div className="absolute inset-0 z-20 flex flex-col items-center justify-center pointer-events-none">
-        <div className="pointer-events-auto w-full h-full flex flex-col items-center justify-center">
+        <div className="pointer-events-auto">
           {children}
         </div>
       </div>

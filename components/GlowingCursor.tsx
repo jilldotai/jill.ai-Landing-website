@@ -5,13 +5,9 @@ const GlowingCursor: React.FC = () => {
   const orbRef = useRef<HTMLDivElement>(null);
   const tailRefs = useRef<(HTMLDivElement | null)[]>([]);
   // High particle count for a dense, continuous light stream
-  const particleCount = 20; 
+  const particleCount = 20;
 
   useEffect(() => {
-    // Check if device supports hover (desktop)
-    const isTouchDevice = window.matchMedia("(pointer: coarse)").matches;
-    if (isTouchDevice) return;
-
     const orb = orbRef.current;
     if (!orb) return;
 
@@ -21,19 +17,28 @@ const GlowingCursor: React.FC = () => {
 
     const handleMouseMove = (e: MouseEvent) => {
       const { clientX, clientY } = e;
-      
+
+      // Reveal cursor and hide system cursor only on first real movement
+      if (orb.style.visibility === "hidden") {
+        document.body.classList.add('custom-cursor');
+        gsap.to([orb, ...tailRefs.current], {
+          autoAlpha: 1,
+          duration: 0.4,
+          stagger: 0.01
+        });
+      }
+
       // Center the main orb (24px wide -> 12px offset)
       xTo(clientX - 12);
       yTo(clientY - 12);
 
-      // Animate tail particles with a dense stagger for a continuous comet effect
+      // Animate tail particles
       tailRefs.current.forEach((particle, index) => {
         if (particle) {
           gsap.to(particle, {
-            x: clientX - 10, // 20px wide -> 10px offset
+            x: clientX - 10,
             y: clientY - 10,
-            // Tight duration scaling for a fluid, thick stream
-            duration: 0.08 + (index * 0.025), 
+            duration: 0.08 + (index * 0.025),
             ease: "power2.out"
           });
         }
@@ -44,33 +49,28 @@ const GlowingCursor: React.FC = () => {
 
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
+      document.body.classList.remove('custom-cursor');
     };
   }, []);
 
-  // Don't render on mobile/touch devices
-  if (typeof window !== 'undefined' && window.matchMedia("(pointer: coarse)").matches) {
-    return null;
-  }
-
   return (
     <>
-      {/* Main Orb: Core of the light (24px) with iridescent breathing pulse */}
-      <div 
+      {/* Main Orb */}
+      <div
         ref={orbRef}
-        className="fixed top-0 left-0 w-6 h-6 rounded-full z-[9999] pointer-events-none glow-pulse cursor-gradient main-orb-breathe blur-[1px] opacity-100"
+        className="fixed top-0 left-0 w-6 h-6 rounded-full z-[9999] pointer-events-none glow-pulse cursor-gradient main-orb-breathe blur-[1px] opacity-0 invisible"
+        style={{ visibility: 'hidden' }}
       />
-      
-      {/* Tail Particles: Substantial glowing stream (20px base) */}
+
+      {/* Tail Particles */}
       {[...Array(particleCount)].map((_, i) => (
         <div
           key={i}
-          ref={(el) => (tailRefs.current[i] = el)}
-          className="fixed top-0 left-0 w-5 h-5 rounded-full z-[9998] pointer-events-none glow-pulse cursor-gradient blur-[2px]"
+          ref={(el) => { tailRefs.current[i] = el; }}
+          className="fixed top-0 left-0 w-5 h-5 rounded-full z-[9998] pointer-events-none glow-pulse cursor-gradient blur-[2px] opacity-0 invisible"
           style={{
-            // High initial opacity that tapers off slowly
-            opacity: Math.max(0, (1 - (i / (particleCount * 1.1))) * 0.7),
-            // Minimal scaling reduction to keep the trail "thick" and substantial
             transform: `scale(${Math.max(0.3, 1 - (i / (particleCount * 1.5)))})`,
+            visibility: 'hidden'
           }}
         />
       ))}

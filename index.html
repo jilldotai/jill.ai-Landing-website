@@ -1,82 +1,137 @@
-
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Jill.ai | Intelligence with Intent</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            colors: {
-              background: '#faf9f8',
-              foreground: '#0a0a0a',
-              accent: '#d48d5d',
-              lumi: '#d946ef',
-            },
-            fontFamily: {
-              sans: ['Inter', 'system-ui', 'sans-serif'],
-              serif: ['Georgia', 'serif'],
-            },
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jill.ai | Intelligence with Intent</title>
+  <link rel="icon" type="image/svg+xml" href="/assets/icons/flavicon.svg" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            background: '#050505',
+            foreground: '#faf9f8',
+            accent: '#d48d5d',
+            lumi: '#d946ef',
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+            serif: ['Georgia', 'serif'],
           },
         },
-      };
-    </script>
-    <style>
-      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
-      
-      html.lenis { height: auto; }
-      .lenis.lenis-smooth { scroll-behavior: auto; }
-      .lenis.lenis-stopped { overflow: hidden; }
+      },
+    };
+  </script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
 
-      body {
-        margin: 0;
-        padding: 0;
-        background-color: #faf9f8;
-        color: #0a0a0a;
-        width: 100%;
-        overscroll-behavior: none;
-        -webkit-font-smoothing: antialiased;
+    html.lenis {
+      height: auto;
+    }
+
+    .lenis.lenis-smooth {
+      scroll-behavior: auto;
+    }
+
+    .lenis.lenis-stopped {
+      overflow: hidden;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #050505;
+      color: #faf9f8;
+      width: 100%;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    .atmosphere {
+      position: fixed;
+      inset: 0;
+      background-image: url('/assets/images/bg-logo.jpeg');
+      background-size: cover;
+      background-position: center;
+      opacity: 0.4;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    body.custom-cursor {
+      cursor: none !important;
+    }
+
+    body.custom-cursor a,
+    body.custom-cursor button,
+    body.custom-cursor input,
+    body.custom-cursor textarea,
+    body.custom-cursor select {
+      cursor: none !important;
+    }
+
+    @property --glow-color {
+      syntax: '<color>';
+      initial-value: hsla(280, 100%, 85%, 0.4);
+      inherits: false;
+    }
+
+    /* Lumi-themed iridescent breathing */
+    @keyframes iridescent {
+
+      0%,
+      100% {
+        --glow-color: hsla(280, 80%, 85%, 0.4);
       }
 
-      @media (pointer: fine) {
-        body, a, button, input, textarea, select { cursor: none !important; }
+      /* Lavender */
+      25% {
+        --glow-color: hsla(320, 80%, 85%, 0.6);
       }
 
-      @property --glow-color {
-        syntax: '<color>';
-        initial-value: hsla(280, 100%, 85%, 0.4);
-        inherits: false;
+      /* Lumi Pink */
+      50% {
+        --glow-color: hsla(190, 80%, 85%, 0.4);
       }
 
-      /* Lumi-themed iridescent breathing */
-      @keyframes iridescent {
-        0%, 100% { --glow-color: hsla(280, 80%, 85%, 0.4); }   /* Lavender */
-        25% { --glow-color: hsla(320, 80%, 85%, 0.6); }      /* Lumi Pink */
-        50% { --glow-color: hsla(190, 80%, 85%, 0.4); }      /* Cyan Glow */
-        75% { --glow-color: hsla(260, 80%, 85%, 0.6); }      /* Deep Purple */
+      /* Cyan Glow */
+      75% {
+        --glow-color: hsla(260, 80%, 85%, 0.6);
       }
 
-      @keyframes breathe {
-        0%, 100% { transform: scale(1); opacity: 0.6; }
-        50% { transform: scale(1.1); opacity: 0.9; }
+      /* Deep Purple */
+    }
+
+    @keyframes breathe {
+
+      0%,
+      100% {
+        transform: scale(1);
+        opacity: 0.6;
       }
 
-      .glow-pulse {
-        animation: iridescent 8s infinite ease-in-out;
-        box-shadow: 0 0 40px 10px var(--glow-color);
+      50% {
+        transform: scale(1.1);
+        opacity: 0.9;
       }
-      
-      .main-orb-breathe {
-        animation: breathe 4s infinite ease-in-out;
-      }
+    }
 
-      .cursor-gradient {
-        background: radial-gradient(circle, var(--glow-color) 0%, var(--glow-color) 40%, transparent 85%);
-      }
-    </style>
+    .glow-pulse {
+      animation: iridescent 8s infinite ease-in-out;
+      box-shadow: 0 0 40px 10px var(--glow-color);
+    }
+
+    .main-orb-breathe {
+      animation: breathe 4s infinite ease-in-out;
+    }
+
+    .cursor-gradient {
+      background: radial-gradient(circle, var(--glow-color) 0%, var(--glow-color) 40%, transparent 85%);
+    }
+  </style>
   <script type="importmap">
 {
   "imports": {
@@ -91,8 +146,10 @@
 }
 </script>
 </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="./index.tsx"></script>
-  </body>
+
+<body>
+  <div id="root"></div>
+  <script type="module" src="./index.tsx"></script>
+</body>
+
 </html>

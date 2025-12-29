@@ -27,7 +27,7 @@ const MenuOverlay: React.FC<MenuOverlayProps> = ({ isOpen, onClose, lenis }) => 
         duration: 1,
         ease: 'power4.inOut',
       });
-      gsap.fromTo(itemsRef.current, 
+      gsap.fromTo(itemsRef.current,
         { y: 100, opacity: 0 },
         { y: 0, opacity: 1, stagger: 0.1, duration: 0.8, delay: 0.4, ease: 'power3.out' }
       );
@@ -49,14 +49,15 @@ const MenuOverlay: React.FC<MenuOverlayProps> = ({ isOpen, onClose, lenis }) => 
   };
 
   return (
-    <div 
+    <div
       ref={overlayRef}
-      className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-2xl flex items-center justify-center opacity-0 pointer-events-none"
+      className="fixed inset-0 z-[1500] bg-black/95 backdrop-blur-2xl flex items-center justify-center opacity-0 pointer-events-none"
       style={{ clipPath: 'circle(0% at 100% 0%)', pointerEvents: isOpen ? 'auto' : 'none' }}
     >
-      <button 
+      <button
         onClick={onClose}
         className="absolute top-10 right-10 group p-4"
+        title="Close Menu"
       >
         <div className="relative w-10 h-10 flex items-center justify-center">
           <div className="absolute w-full h-[1px] bg-white rotate-45 transition-transform duration-500 group-hover:rotate-[135deg]"></div>
@@ -64,22 +65,40 @@ const MenuOverlay: React.FC<MenuOverlayProps> = ({ isOpen, onClose, lenis }) => 
         </div>
       </button>
 
-      <div className="flex flex-col items-center gap-6 md:gap-10">
+      <div className="flex flex-col items-center gap-6 md:gap-10 w-full max-w-4xl px-6">
         {menuItems.map((item, i) => (
-          <div 
+          <div
             key={item.id}
-            ref={el => itemsRef.current[i] = el}
-            className="group relative overflow-hidden"
+            ref={el => { itemsRef.current[i] = el; }}
+            className="group relative overflow-hidden w-full text-center"
           >
-            <button 
+            <button
               onClick={() => handleLinkClick(item.id)}
-              className="text-3xl md:text-4xl font-light tracking-tighter text-white/40 hover:text-white transition-colors duration-500 uppercase"
+              className="text-4xl md:text-6xl font-light tracking-tighter text-white/30 hover:text-white transition-all duration-500 uppercase py-2"
             >
               {item.label}
             </button>
-            <div className="absolute bottom-0 left-0 w-0 h-[2px] bg-accent transition-all duration-500 group-hover:w-full"></div>
           </div>
         ))}
+
+        {/* WHITEPAPER BUTTON */}
+        <div
+          ref={el => { itemsRef.current[menuItems.length] = el; }}
+          className="mt-12 w-full max-w-sm"
+        >
+          <button
+            onClick={() => {
+              const link = document.createElement('a');
+              link.href = '/assets/IOkTSuite_Technical_Whitepaper_.pdf';
+              link.download = 'IOkT_Technical_Whitepaper.pdf';
+              link.click();
+              onClose();
+            }}
+            className="w-full py-6 bg-white text-black rounded-full text-[10px] font-bold uppercase tracking-[0.5em] hover:bg-cyan-400 hover:scale-105 transition-all duration-500 shadow-[0_0_30px_rgba(255,255,255,0.1)] active:scale-95"
+          >
+            Alpha Whitepaper
+          </button>
+        </div>
       </div>
     </div>
   );
