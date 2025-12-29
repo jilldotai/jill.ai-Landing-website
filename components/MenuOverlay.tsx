@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { gsap } from 'gsap';
+import gsap from "gsap";
 
 interface MenuOverlayProps {
   isOpen: boolean;
@@ -74,7 +74,7 @@ const MenuOverlay: React.FC<MenuOverlayProps> = ({ isOpen, onClose, lenis }) => 
           >
             <button
               onClick={() => handleLinkClick(item.id)}
-              className="text-4xl md:text-6xl font-light tracking-tighter text-white/30 hover:text-white transition-all duration-500 uppercase py-2"
+               className="text-[18px] md:text-3xl font-light tracking-widest text-white/50 hover:text-white transition-all duration-500 uppercase py-2"
             >
               {item.label}
             </button>
