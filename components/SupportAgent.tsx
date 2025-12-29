@@ -21,7 +21,7 @@ const SupportAgent: React.FC = () => {
     { role: 'ai', text: "Lumi online. How can I facilitate your understanding of the Jill ecosystem today?" }
   ]);
 
-  const LUMI_IMG = "/assets/images/lumi.webp.png";
+  const LUMI_IMG = "./assets/images/lumi.webp.png";
 
   useEffect(() => {
     if (isOpen) gsap.fromTo('.agent-panel', { opacity: 0, y: 30, scale: 0.98 }, { opacity: 1, y: 0, scale: 1, duration: 0.4, ease: 'power3.out' });

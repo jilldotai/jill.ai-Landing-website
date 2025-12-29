@@ -98,7 +98,7 @@ const LegalOverlay: React.FC<LegalOverlayProps> = ({ isOpen, onClose, title, con
                 <p>We do not collect PII (Personally Identifiable Information) for behavioral profiling. All sentiment analysis occurs on the Jill-Edge node.</p>
                 <h2>2. Zero-Knowledge Proofs</h2>
                 <p>We verify identities without storing them. Your child is a node, not a product.</p>
-                <p>For full details, download the <a href="/assets/Privacy_Policy.pdf" target="_blank" className="text-accent underline">Complete Privacy Artifact (PDF)</a>.</p>
+                <p>For full details, download the <a href="./assets/Privacy_Policy.pdf" target="_blank" className="text-accent underline">Complete Privacy Artifact (PDF)</a>.</p>
               </div>
             )}
             {title === 'paia' && (
@@ -107,8 +107,8 @@ const LegalOverlay: React.FC<LegalOverlayProps> = ({ isOpen, onClose, title, con
                 <p><strong>Prepared in terms of Section 51 of the Promotion of Access to Information Act.</strong></p>
                 <p>JillAI (Pty) Ltd operates under the laws of the Republic of South Africa. This manual provides the necessary information for external nodes to request access to records held by the entity.</p>
                 <h2>Contact Person</h2>
-                <p>Information Officer: E. Coetzee<br />Address: Vaalpark, Sasolburg, Freestate.</p>
-                <p>Access the full manual: <a href="/assets/PAIA_Manual.pdf" target="_blank" className="text-accent underline">Download PAIA PDF</a>.</p>
+                <p>Information Officer: Estelle Coetzee<br />Address: Vaalpark, Sasolburg, Freestate.</p>
+                <p>Access the full manual: <a href="./assets/PAIA_Manual.pdf" target="_blank" className="text-accent underline">Download PAIA PDF</a>.</p>
               </div>
             )}
             {title === 'terms' && (
@@ -117,14 +117,14 @@ const LegalOverlay: React.FC<LegalOverlayProps> = ({ isOpen, onClose, title, con
                 <p>By engaging with the Jill ecosystem, you agree to the structural protocols of the IOkT network.</p>
                 <h2>1. Ethical Boundaries</h2>
                 <p>The Jill-Node may not be used for the creation of harmful behavioral loops.</p>
-                <p>Full spectrum terms: <a href="/assets/Terms_of_Use.pdf" target="_blank" className="text-accent underline">Download Terms (PDF)</a>.</p>
+                <p>Full spectrum terms: <a href="./assets/Terms_of_Use.pdf" target="_blank" className="text-accent underline">Download Terms (PDF)</a>.</p>
               </div>
             )}
           </div>
 
           <div className="mt-32 pt-16 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-10 pb-32">
             <div className="text-[10px] uppercase tracking-[0.5em] text-white/30 font-medium">
-              Authorized and Issued by JillAI (Pty) Ltd. Secure Node ID: LEGAL-VAAL-01
+              Authorized and Issued by JillAI (Pty) Ltd. t/a jill.ai
             </div>
             <div className="flex gap-8">
               <button

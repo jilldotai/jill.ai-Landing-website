@@ -53,7 +53,7 @@ const RoadmapSection: React.FC = () => {
             </p>
           </div>
           <a
-            href="/assets/IOkTSuite_Technical_Whitepaper_.pdf"
+            href="./assets/IOkTSuite_Technical_Whitepaper_.pdf"
             download
             className="group flex items-center gap-6 px-12 py-6 bg-white text-black rounded-full hover:bg-accent hover:text-white transition-all duration-700 text-[10px] font-bold uppercase tracking-[0.5em] hover:scale-105 active:scale-95 shadow-2xl"
           >

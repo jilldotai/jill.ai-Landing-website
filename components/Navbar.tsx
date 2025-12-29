@@ -32,12 +32,12 @@ const Navbar: React.FC<NavbarProps> = ({ onMenuOpen }) => {
         >
           {/* ICON LOGO (Solid Fill White SVG) */}
           <div className="w-10 h-10 flex items-center justify-center transition-transform duration-500 group-hover:rotate-6">
-            <img src="/assets/icons/logo.svg" alt="Jill.ai Logo" className="w-full h-full object-contain" />
+            <img src="./assets/icons/logo.svg" alt="Jill.ai Logo" className="w-full h-full object-contain" />
           </div>
 
           {/* TYPOGRAPHY LOGO (Solid Fill White SVG) */}
           <div className="flex flex-col h-8">
-            <img src="/assets/icons/logo-text.svg" alt="Jill.ai Typography" className="h-full w-auto object-contain" />
+            <img src="./assets/icons/logo-text.svg" alt="Jill.ai Typography" className="h-full w-auto object-contain" />
           </div>
         </div>
 
@@ -46,7 +46,7 @@ const Navbar: React.FC<NavbarProps> = ({ onMenuOpen }) => {
           onClick={onMenuOpen}
           className="group flex items-center gap-6 text-[10px] uppercase tracking-[0.5em] font-bold text-foreground"
         >
-          <span className="hidden md:block opacity-60 group-hover:opacity-100 transition-opacity">Node Menu</span>
+          <span className="hidden md:block opacity-60 group-hover:opacity-100 transition-opacity">       Menu</span>
           <div className="flex flex-col gap-1.5 w-10">
             <div className="w-full h-[1.5px] bg-foreground transition-all duration-500 group-hover:translate-y-[-2px]"></div>
             <div className="w-2/3 h-[1.5px] bg-foreground transition-all duration-500 group-hover:w-full self-end"></div>

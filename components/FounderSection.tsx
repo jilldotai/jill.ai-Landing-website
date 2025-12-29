@@ -9,7 +9,7 @@ const FounderSection: React.FC = () => {
         <div className="md:w-1/2 relative">
           <div className="relative aspect-[4/5] w-full max-w-lg mx-auto overflow-visible">
             <img
-              src="/assets/images/founder-no-bg.png.png"
+              src="./assets/images/founder-no-bg.png.png"
               alt="Estelle Coetzee"
               className="w-full h-full object-contain relative z-10 filter drop-shadow-[0_40px_60px_rgba(0,0,0,0.1)] grayscale hover:grayscale-0 transition-all duration-1000"
             />

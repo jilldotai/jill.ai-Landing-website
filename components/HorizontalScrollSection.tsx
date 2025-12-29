@@ -16,11 +16,11 @@ interface ShowcaseItem {
 const showcaseItems: ShowcaseItem[] = [
   {
     id: "00",
-    title: "The Problem",
-    subtitle: "Digital Fragility",
+    title: "IOkT",
+    subtitle: "The Reset",
     description: "The internet wasn't built for kids. From data harvesting to behavioral loops, the next generation is being processed, not protected. We are here to change the architecture of childhood.",
-    mediaUrl: "/assets/videos/problem.webm",
-    sideImage: "/assets/images/problem-visual.jpeg",
+    mediaUrl: "./assets/videos/problem.webm",
+    sideImage: "./assets/images/problem-visual.jpeg",
     isVideo: false
   },
   {
@@ -28,8 +28,8 @@ const showcaseItems: ShowcaseItem[] = [
     title: "IOkTKey",
     subtitle: "The Bouncer",
     description: "The Keyboard that Intervenes. On-device Sentiment Intervention detects grooming, bullying, and distress in real-time.",
-    mediaUrl: "/assets/videos/app1.webm",
-    sideImage: "/assets/images/ioktkey-interface.jpeg",
+    mediaUrl: "./assets/videos/app1.webm",
+    sideImage: "./assets/images/ioktkey-interface.jpeg",
     isVideo: false
   },
   {
@@ -37,8 +37,8 @@ const showcaseItems: ShowcaseItem[] = [
     title: "IOkTNet",
     subtitle: "The Shield",
     description: "The Browser that Scrubs. Blocks behavioral profiling and neutralizes aggressive algorithms for a Clean Web experience.",
-    mediaUrl: "/assets/videos/app2.webm",
-    sideImage: "/assets/images/ioktnet-shield.jpeg",
+    mediaUrl: "./assets/videos/app2.webm",
+    sideImage: "./assets/images/ioktnet-shield.jpeg",
     isVideo: false
   },
   {
@@ -46,8 +46,8 @@ const showcaseItems: ShowcaseItem[] = [
     title: "IOkTID",
     subtitle: "The Passport",
     description: "Self-Sovereign Identity using Zero-Knowledge Proofs. Prove age without revealing PII. Includes Sentinel Mode.",
-    mediaUrl: "/assets/videos/app3.webm",
-    sideImage: "/assets/images/ioktid-anchor.jpeg",
+    mediaUrl: "./assets/videos/app3.webm",
+    sideImage: "./assets/images/ioktid-anchor.jpeg",
     isVideo: false
   },
   {
@@ -55,8 +55,8 @@ const showcaseItems: ShowcaseItem[] = [
     title: "IOkTtutor",
     subtitle: "The Guide",
     description: "Personalized AI learning agent for neurodiverse minds. Runs locally, keeping milestones private and secure.",
-    mediaUrl: "/assets/videos/app4.webm",
-    sideImage: "/assets/images/iokttutor-guide.jpeg",
+    mediaUrl: "./assets/videos/app4.webm",
+    sideImage: "./assets/images/iokttutor-guide.jpeg",
     isVideo: false
   }
 ];

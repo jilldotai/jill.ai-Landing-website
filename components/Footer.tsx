@@ -27,7 +27,7 @@ const Footer: React.FC = () => {
                   <p>2025-068501</p>
                 </div>
                 <div className="sm:col-span-2 mt-4 text-[8px] opacity-30 leading-relaxed font-light normal-case">
-                  Directors: E. Coetzee • Information Officer: E. Coetzee<br />
+                  Director: Estelle Coetzee • Information Officer: Estelle Coetzee<br />
                   Physical Address: Vaalpark, Sasolburg, Freestate, South Africa
                 </div>
               </div>
