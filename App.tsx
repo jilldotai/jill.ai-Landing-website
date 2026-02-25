@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { Analytics } from '@vercel/analytics/react';
 import Layout from './components/Layout';
 import Hero from './components/Hero';
 import FeatureGrid from './components/FeatureGrid';
@@ -217,6 +218,7 @@ const App: React.FC = () => {
         {/* Support Agent AI */}
         <SupportAgent />
       </main>
+      <Analytics />
     </Layout>
   );
 };
