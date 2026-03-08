@@ -30,7 +30,7 @@ const Navbar: React.FC<NavbarProps> = ({ onMenuOpen }) => {
           {/* ICON LOGO (Solid Fill White SVG) */}
           <div className="w-10 h-10 flex items-center justify-center transition-transform duration-500 group-hover:rotate-6">
             <img
-              src="./assets/icons/logo.svg"
+              src="/assets/icons/logo.svg"
               alt="Jill.ai Logo"
               className="w-full h-full object-contain"
             />
@@ -39,7 +39,7 @@ const Navbar: React.FC<NavbarProps> = ({ onMenuOpen }) => {
           {/* TYPOGRAPHY LOGO (Solid Fill White SVG) */}
           <div className="flex flex-col h-8">
             <img
-              src="./assets/icons/logo-text.svg"
+              src="/assets/icons/logo-text.svg"
               alt="Jill.ai Typography"
               className="h-full w-auto object-contain"
             />

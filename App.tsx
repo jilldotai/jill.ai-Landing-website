@@ -1,3 +1,5 @@
+'use client';
+
 
 import React, { useEffect, useState } from 'react';
 import { gsap } from 'gsap';
@@ -49,7 +51,7 @@ const App: React.FC = () => {
   const handleWhitepaperDownload = (e: React.MouseEvent) => {
     e.preventDefault();
     const link = document.createElement('a');
-    link.href = './assets/IOkTSuite_Technical_Whitepaper_.pdf';
+    link.href = '/assets/IOkTSuite_Technical_Whitepaper_.pdf';
     link.download = 'IOkT_Technical_Whitepaper.pdf';
     document.body.appendChild(link);
     link.click();
