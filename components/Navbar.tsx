@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 'use client';
 
 import Image from 'next/image';
@@ -12,6 +13,16 @@ const links = [
 ];
 
 export function Navbar() {
+=======
+import React from 'react';
+import JillMark from './JillMark';
+
+interface NavbarProps {
+  onMenuOpen: () => void;
+}
+
+const Navbar: React.FC<NavbarProps> = ({ onMenuOpen }) => {
+>>>>>>> 6f9c086941bc0cc3a4e1ac101c735cacaaa68153
   return (
 <<<<<<< HEAD
     <m.header
@@ -51,18 +62,26 @@ export function Navbar() {
           </div>
         </div>
 
-        {/* MENU TOGGLE */}
         <button
           onClick={onMenuOpen}
           className="group flex items-center gap-6 text-[10px] uppercase tracking-[0.5em] font-bold text-foreground"
 >>>>>>> 1ef9574d953de48238ed3800f4740a5c6e21a9f0
         >
+<<<<<<< HEAD
           <span className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/4">
             <Image src="/assets/icons/logo-iridescent.svg" alt="Jill.ai logo" width={28} height={28} className="h-7 w-7" />
           </span>
           <div>
             <div className="iridescent-text text-sm uppercase tracking-[0.32em]">Jill.ai</div>
             <div className="text-[0.62rem] uppercase tracking-[0.28em] text-paper/42">Intelligence with intent</div>
+=======
+          <span className="hidden md:block opacity-60 group-hover:opacity-100 transition-opacity">
+            Menu
+          </span>
+          <div className="flex flex-col gap-1.5 w-10">
+            <div className="w-full h-[1.5px] bg-foreground transition-all duration-500 group-hover:translate-y-[-2px]" />
+            <div className="w-2/3 h-[1.5px] bg-foreground transition-all duration-500 group-hover:w-full self-end" />
+>>>>>>> 6f9c086941bc0cc3a4e1ac101c735cacaaa68153
           </div>
         </m.a>
 
