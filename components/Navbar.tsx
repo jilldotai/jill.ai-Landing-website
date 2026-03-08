@@ -1,27 +1,11 @@
-
-import React, { useState, useEffect } from 'react';
+import React from 'react';
+import JillMark from './JillMark';
 
 interface NavbarProps {
   onMenuOpen: () => void;
 }
 
 const Navbar: React.FC<NavbarProps> = ({ onMenuOpen }) => {
-  const [isScrolled, setIsScrolled] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-    };
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  const handleLogoClick = () => {
-    if ((window as any).lenis) {
-      (window as any).lenis.scrollTo(0, { duration: 1.5 });
-    }
-  };
-
   return (
     <nav className="fixed top-0 left-0 w-full z-50 py-8 bg-transparent backdrop-blur-md bg-black/50 transition-all duration-700">
       <div className="max-w-[1440px] mx-auto px-8 md:px-12 flex justify-between items-center w-full">
@@ -46,18 +30,16 @@ const Navbar: React.FC<NavbarProps> = ({ onMenuOpen }) => {
           </div>
         </div>
 
-        {/* MENU TOGGLE */}
         <button
           onClick={onMenuOpen}
           className="group flex items-center gap-6 text-[10px] uppercase tracking-[0.5em] font-bold text-foreground"
         >
           <span className="hidden md:block opacity-60 group-hover:opacity-100 transition-opacity">
-            {" "}
             Menu
           </span>
           <div className="flex flex-col gap-1.5 w-10">
-            <div className="w-full h-[1.5px] bg-foreground transition-all duration-500 group-hover:translate-y-[-2px]"></div>
-            <div className="w-2/3 h-[1.5px] bg-foreground transition-all duration-500 group-hover:w-full self-end"></div>
+            <div className="w-full h-[1.5px] bg-foreground transition-all duration-500 group-hover:translate-y-[-2px]" />
+            <div className="w-2/3 h-[1.5px] bg-foreground transition-all duration-500 group-hover:w-full self-end" />
           </div>
         </button>
       </div>
