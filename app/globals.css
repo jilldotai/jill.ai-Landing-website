@@ -1,0 +1,150 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ink: #090908;
+  --color-paper: #f6f2e8;
+  --color-gold: #d5b170;
+  --color-bronze: #7d6440;
+  --color-iris: #d5c5ff;
+  --color-blush: #f6a8d8;
+  --color-peach: #f1b58f;
+  --color-mist: #d9e5ff;
+}
+
+:root {
+  color-scheme: dark;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  min-width: 320px;
+  font-family: var(--font-space-grotesk), sans-serif;
+  background:
+    radial-gradient(circle at top, rgba(213, 197, 255, 0.16), transparent 28%),
+    radial-gradient(circle at 80% 10%, rgba(246, 168, 216, 0.12), transparent 18%),
+    radial-gradient(circle at 20% 85%, rgba(241, 181, 143, 0.12), transparent 24%),
+    linear-gradient(180deg, #10100d 0%, #090908 100%);
+}
+
+h1,
+h2,
+h3,
+.font-display {
+  font-family: var(--font-syncopate), sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+section {
+  scroll-margin-top: 7rem;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.marquee-track {
+  animation: marquee 24s linear infinite;
+}
+
+.surface-panel {
+  position: relative;
+  overflow: hidden;
+}
+
+.surface-panel::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(135deg, rgba(217, 229, 255, 0.16), rgba(246, 168, 216, 0.08) 30%, transparent 55%);
+  opacity: 0.45;
+  pointer-events: none;
+}
+
+.image-mask {
+  position: relative;
+  overflow: hidden;
+}
+
+.image-mask::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  height: 60%;
+  background: linear-gradient(180deg, transparent, rgba(9, 9, 8, 0.92));
+  pointer-events: none;
+}
+
+.iridescent-border {
+  position: relative;
+}
+
+.iridescent-border::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(135deg, rgba(217, 229, 255, 0.9), rgba(213, 197, 255, 0.85), rgba(246, 168, 216, 0.82), rgba(241, 181, 143, 0.9));
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.iridescent-text {
+  background: linear-gradient(135deg, #d9e5ff 0%, #d5c5ff 34%, #f6a8d8 68%, #f1b58f 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.aurora-orb {
+  background:
+    radial-gradient(circle at 30% 30%, rgba(217, 229, 255, 0.9), transparent 38%),
+    radial-gradient(circle at 70% 35%, rgba(213, 197, 255, 0.85), transparent 34%),
+    radial-gradient(circle at 50% 70%, rgba(246, 168, 216, 0.72), transparent 40%),
+    rgba(255, 255, 255, 0.02);
+  filter: blur(8px);
+}
+
+.noise-overlay {
+  position: relative;
+}
+
+.noise-overlay::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+  background-size: 72px 72px;
+  mask-image: radial-gradient(circle at center, black, transparent 82%);
+  opacity: 0.45;
+  pointer-events: none;
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}

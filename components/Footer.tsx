@@ -1,67 +1,45 @@
-import React, { useState } from 'react';
-import LegalOverlay from './LegalOverlay';
+'use client';
 
-const Footer: React.FC = () => {
-  const [activeDoc, setActiveDoc] = useState<'privacy' | 'paia' | 'terms' | null>(null);
+import Image from 'next/image';
+import { m } from 'motion/react';
+import { Reveal } from '@/components/site-motion';
 
+export function Footer() {
   return (
-    <footer className="relative w-full">
-      <div className="w-full bg-[#050505]/95 backdrop-blur-3xl border-t border-white/5 p-8 md:p-12 relative z-30">
-        <div className="max-w-[1440px] mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-12 items-end">
-            <div className="flex flex-col gap-4">
-              <span className="text-5xl md:text-8xl font-bold tracking-tighter text-white">JILL.AI</span>
-              <p className="text-[10px] uppercase tracking-[0.6em] text-white/30 font-medium">Restoring Human Agency. Period.</p>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-12 gap-y-4 mt-8 pt-8 border-t border-white/5 text-[9px] uppercase tracking-widest text-white/40">
-                <div>
-                  <p className="text-white/20 mb-1">Entity</p>
-                  <p>JillAI (Pty) Ltd t/a jill.ai</p>
-                  <p className="mt-2 text-white/20 mb-1">Registration</p>
-                  <p>2025 / 631008 / 07</p>
-                </div>
-                <div>
-                  <p className="text-white/20 mb-1">Tax / VAT</p>
-                  <p>9976067190</p>
-                  <p className="mt-2 text-white/20 mb-1">Regulator Reg</p>
-                  <p>2025-068501</p>
-                </div>
-                <div className="sm:col-span-2 mt-4 text-[8px] opacity-30 leading-relaxed font-light normal-case">
-                  Director: Estelle Coetzee • Information Officer: Estelle Coetzee<br />
-                  Physical Address: Vaalpark, Sasolburg, Freestate, South Africa
-                </div>
-              </div>
+    <footer className="relative px-5 pb-10 md:px-10 md:pb-14">
+      <Reveal>
+        <m.div
+          whileHover={{ y: -6 }}
+          className="mx-auto flex w-full max-w-360 flex-col gap-8 rounded-4xl border border-white/10 bg-white/3 px-6 py-8 md:flex-row md:items-end md:justify-between md:px-8"
+        >
+          <div>
+            <div className="flex items-center gap-3">
+              <Image src="/assets/icons/logo-iridescent.svg" alt="Jill.ai logo" width={30} height={30} className="h-8 w-8" />
+              <p className="text-[0.68rem] uppercase tracking-[0.32em] text-paper/45">Jill.ai</p>
             </div>
-
-            <div className="flex flex-col gap-8 md:items-end">
-              <nav className="flex flex-wrap gap-8 text-[10px] font-bold uppercase tracking-[0.4em]">
-                <button
-                  onClick={() => setActiveDoc('privacy')}
-                  className="text-white/40 hover:text-white hover:drop-shadow-[0_0_8px_rgba(34,211,238,0.8)] transition-all duration-500"
-                >
-                  Privacy Policy
-                </button>
-                <button
-                  onClick={() => setActiveDoc('paia')}
-                  className="text-white/40 hover:text-white hover:drop-shadow-[0_0_8px_rgba(217,70,239,0.8)] transition-all duration-500"
-                >
-                  PAIA Manual
-                </button>
-                <button
-                  onClick={() => setActiveDoc('terms')}
-                  className="text-white/40 hover:text-white hover:drop-shadow-[0_0_8px_rgba(34,211,238,0.8)] transition-all duration-500"
-                >
-                  Terms of Use
-                </button>
-              </nav>
-              <p className="text-[9px] uppercase tracking-[0.4em] text-white/10 mt-4">© 2025 Jill.AI. All Rights Reserved.</p>
-            </div>
+            <p className="mt-4 max-w-xl text-2xl leading-tight text-paper md:text-3xl">
+              Intelligence with integrity, expressed as privacy-first infrastructure for a safer digital childhood.
+            </p>
           </div>
-        </div>
-      </div>
-      <LegalOverlay isOpen={activeDoc !== null} onClose={() => setActiveDoc(null)} title={activeDoc || ''} content={null} />
+
+          <div className="space-y-3 text-[0.68rem] uppercase tracking-[0.28em] text-paper/42 md:text-right">
+            <p>hello@jilldotai.co.za</p>
+            <p>jilldotai.co.za</p>
+            <div className="flex flex-wrap gap-4 md:justify-end">
+              <a href="/assets/Privacy_Policy.pdf" target="_blank" rel="noreferrer" className="hover:text-paper">
+                Privacy Policy
+              </a>
+              <a href="/assets/Terms_of_Use.pdf" target="_blank" rel="noreferrer" className="hover:text-paper">
+                Terms
+              </a>
+              <a href="/assets/PAIA_Manual.pdf" target="_blank" rel="noreferrer" className="hover:text-paper">
+                PAIA Manual
+              </a>
+            </div>
+            <p>&copy; 2026 Jill.ai</p>
+          </div>
+        </m.div>
+      </Reveal>
     </footer>
   );
-};
-
-export default Footer;
+}
