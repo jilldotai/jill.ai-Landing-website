@@ -13,6 +13,7 @@ const links = [
 
 export function Navbar() {
   return (
+<<<<<<< HEAD
     <m.header
       className="sticky top-0 z-50 px-5 py-4 md:px-10"
       initial={{ opacity: 0, y: -20 }}
@@ -26,6 +27,35 @@ export function Navbar() {
           className="flex items-center gap-3"
           whileHover={{ x: 2 }}
           whileTap={{ scale: 0.98 }}
+=======
+    <nav className="fixed top-0 left-0 w-full z-50 py-8 bg-transparent backdrop-blur-md bg-black/50 transition-all duration-700">
+      <div className="max-w-[1440px] mx-auto px-8 md:px-12 flex justify-between items-center w-full">
+        {/* LOGO & TYPOGRAPHY LOGO GROUP */}
+        <div onClick={handleLogoClick}>
+          {/* ICON LOGO (Solid Fill White SVG) */}
+          <div className="w-10 h-10 flex items-center justify-center transition-transform duration-500 group-hover:rotate-6">
+            <img
+              src="/assets/icons/logo.svg"
+              alt="Jill.ai Logo"
+              className="w-full h-full object-contain"
+            />
+          </div>
+
+          {/* TYPOGRAPHY LOGO (Solid Fill White SVG) */}
+          <div className="flex flex-col h-8">
+            <img
+              src="/assets/icons/logo-text.svg"
+              alt="Jill.ai Typography"
+              className="h-full w-auto object-contain"
+            />
+          </div>
+        </div>
+
+        {/* MENU TOGGLE */}
+        <button
+          onClick={onMenuOpen}
+          className="group flex items-center gap-6 text-[10px] uppercase tracking-[0.5em] font-bold text-foreground"
+>>>>>>> 1ef9574d953de48238ed3800f4740a5c6e21a9f0
         >
           <span className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/4">
             <Image src="/assets/icons/logo-iridescent.svg" alt="Jill.ai logo" width={28} height={28} className="h-7 w-7" />

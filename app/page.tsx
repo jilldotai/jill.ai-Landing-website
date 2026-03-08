@@ -1,5 +1,6 @@
 'use client';
 
+<<<<<<< HEAD
 import { ContactForm } from '@/components/contact-form';
 import { CinematicIntro } from '@/components/cinematic-intro';
 import { Footer } from '@/components/footer';
@@ -174,4 +175,10 @@ export default function Home() {
       </main>
     </MotionRoot>
   );
+=======
+import App from '../App';
+
+export default function HomePage() {
+  return <App />;
+>>>>>>> 1ef9574d953de48238ed3800f4740a5c6e21a9f0
 }

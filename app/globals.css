@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 @import "tailwindcss";
 
 @theme {
@@ -148,3 +149,102 @@ section {
     transform: translateX(-50%);
   }
 }
+=======
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
+
+html.lenis {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #050505;
+  color: #faf9f8;
+  width: 100%;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+.atmosphere {
+  position: fixed;
+  inset: 0;
+  background-image: url('/assets/images/bg-logo.jpeg');
+  background-size: cover;
+  background-position: center;
+  opacity: 0.4;
+  pointer-events: none;
+  z-index: 0;
+}
+
+body.custom-cursor {
+  cursor: none !important;
+}
+
+body.custom-cursor a,
+body.custom-cursor button,
+body.custom-cursor input,
+body.custom-cursor textarea,
+body.custom-cursor select {
+  cursor: none !important;
+}
+
+@property --glow-color {
+  syntax: '<color>';
+  initial-value: hsla(280, 100%, 85%, 0.4);
+  inherits: false;
+}
+
+@keyframes iridescent {
+  0%,
+  100% {
+    --glow-color: hsla(280, 80%, 85%, 0.4);
+  }
+
+  25% {
+    --glow-color: hsla(320, 80%, 85%, 0.6);
+  }
+
+  50% {
+    --glow-color: hsla(190, 80%, 85%, 0.4);
+  }
+
+  75% {
+    --glow-color: hsla(260, 80%, 85%, 0.6);
+  }
+}
+
+@keyframes breathe {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+
+  50% {
+    transform: scale(1.1);
+    opacity: 0.9;
+  }
+}
+
+.glow-pulse {
+  animation: iridescent 8s infinite ease-in-out;
+  box-shadow: 0 0 40px 10px var(--glow-color);
+}
+
+.main-orb-breathe {
+  animation: breathe 4s infinite ease-in-out;
+}
+
+.cursor-gradient {
+  background: radial-gradient(circle, var(--glow-color) 0%, var(--glow-color) 40%, transparent 85%);
+}
+>>>>>>> 1ef9574d953de48238ed3800f4740a5c6e21a9f0
