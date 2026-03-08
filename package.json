@@ -6,33 +6,25 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-<<<<<<< HEAD
-    "start": "next start"
-=======
     "start": "next start",
     "lint": "next lint"
->>>>>>> 1ef9574d953de48238ed3800f4740a5c6e21a9f0
   },
   "dependencies": {
     "@studio-freight/lenis": "^1.0.42",
     "@tailwindcss/postcss": "4.2.1",
     "lenis": "^1.3.18",
     "motion": "^12.35.1",
-    "next": "16.1.6",
+    "next": "^16.1.6",
     "nodemailer": "^8.0.1",
     "postcss": "8.5.8",
     "react": "^19.2.3",
-    "react-dom": "^19.2.3",
-<<<<<<< HEAD
-    "tailwindcss": "4.2.1"
-=======
-    "next": "^15.3.0"
->>>>>>> 1ef9574d953de48238ed3800f4740a5c6e21a9f0
+    "react-dom": "^19.2.3"
   },
   "devDependencies": {
     "@types/node": "^22.14.0",
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",
     "typescript": "~5.8.2"
-  }
+  },
+  "forceConsistentCasingInFileNames": true
 }
