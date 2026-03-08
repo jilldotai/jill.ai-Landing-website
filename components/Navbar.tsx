@@ -7,13 +7,27 @@ interface NavbarProps {
 
 const Navbar: React.FC<NavbarProps> = ({ onMenuOpen }) => {
   return (
-    <nav className="fixed top-0 left-0 right-0 z-[1200] px-6 md:px-14 py-6 backdrop-blur-md bg-black/15 border-b border-white/5">
-      <div className="flex items-center justify-between max-w-[1600px] mx-auto">
-        <div className="relative">
-          <div id="navbar-brand-lock" className="absolute left-0 top-0 w-[1px] h-[1px] opacity-0 pointer-events-none" />
-          <a href="#" className="inline-flex items-center" aria-label="Jill AI">
-            <JillMark compact className="text-white" />
-          </a>
+    <nav className="fixed top-0 left-0 w-full z-50 py-8 bg-transparent backdrop-blur-md bg-black/50 transition-all duration-700">
+      <div className="max-w-[1440px] mx-auto px-8 md:px-12 flex justify-between items-center w-full">
+        {/* LOGO & TYPOGRAPHY LOGO GROUP */}
+        <div onClick={handleLogoClick}>
+          {/* ICON LOGO (Solid Fill White SVG) */}
+          <div className="w-10 h-10 flex items-center justify-center transition-transform duration-500 group-hover:rotate-6">
+            <img
+              src="/assets/icons/logo.svg"
+              alt="Jill.ai Logo"
+              className="w-full h-full object-contain"
+            />
+          </div>
+
+          {/* TYPOGRAPHY LOGO (Solid Fill White SVG) */}
+          <div className="flex flex-col h-8">
+            <img
+              src="/assets/icons/logo-text.svg"
+              alt="Jill.ai Typography"
+              className="h-full w-auto object-contain"
+            />
+          </div>
         </div>
 
         <button

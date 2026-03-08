@@ -1,5 +1,6 @@
 'use client';
 
+
 import React, { useEffect } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -59,6 +60,16 @@ const App: React.FC = () => {
       );
     });
   }, []);
+
+  const handleWhitepaperDownload = (e: React.MouseEvent) => {
+    e.preventDefault();
+    const link = document.createElement('a');
+    link.href = '/assets/IOkTSuite_Technical_Whitepaper_.pdf';
+    link.download = 'IOkT_Technical_Whitepaper.pdf';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
 
   return (
     <Layout>

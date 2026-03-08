@@ -8,12 +8,57 @@ interface Panel {
   body?: string;
 }
 
-const panels: Panel[] = [
-  { id: '01', title: 'Experiment 01' },
-  { id: '02', title: 'IOkT', body: 'Internet of Kids Things' },
-  { id: '03', title: 'A privacy-first safety layer for children online.' },
-  { id: '04', title: 'Free for every child and parent.' },
-  { id: '05', title: 'Licensed to platforms that care.' },
+const showcaseItems: ShowcaseItem[] = [
+  {
+    id: "00",
+    title: "IOkT",
+    subtitle: "The Reset",
+    description:
+      "The internet wasn't built for kids. We are changing the architecture of childhood.",
+    mediaUrl: "/assets/videos/problem.webm",
+    sideImage: "/assets/images/problem-visual.jpeg",
+    isVideo: true,
+  },
+  {
+    id: "01",
+    title: "IOkTKey",
+    subtitle: "The Bouncer",
+    description:
+      "The Keyboard that Intervenes. Real-time sentiment detection for grooming and bullying.",
+    mediaUrl: "/assets/videos/app1.webm",
+    sideImage: "/assets/images/ioktkey-interface.jpeg",
+    isVideo: true,
+  },
+  {
+    id: "02",
+    title: "IOkTNet",
+    subtitle: "The Shield",
+    description:
+      "The Browser that Scrubs. Blocks behavioral profiling and neutralizes aggressive algorithms.",
+    mediaUrl: "/assets/videos/app2.webm",
+    sideImage: "/assets/images/ioktnet-shield.jpeg",
+    isVideo: true,
+  },
+  {
+    id: "03",
+    title: "IOkTID",
+    subtitle: "The Passport",
+    description:
+      "Self-Sovereign Identity. Prove age without revealing data. Includes Sentinel Mode.",
+    mediaUrl: "/assets/videos/app3.webm",
+    sideImage: "/assets/images/ioktid-anchor.jpeg",
+    isVideo: true,
+  },
+  {
+    id: "04",
+    title: "IOkTtutor",
+    subtitle: "The Guide",
+    description:
+      "Personalized AI learning agent for neurodiverse minds. Private, secure, local.",
+    mediaUrl: "/assets/videos/app4.webm",
+    sideImage: "/assets/images/iokttutor-guide.jpeg",
+    isVideo: true,
+  },
 ];
 
 const HorizontalScrollSection: React.FC = () => {

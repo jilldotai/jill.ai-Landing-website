@@ -1,14 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
 
-:root {
-  --c-bg: #05070d;
-  --c-ink: #faf9f8;
-  --c-irid-1: #7cf7f6;
-  --c-irid-2: #88b8ff;
-  --c-irid-3: #d98cff;
-  --c-irid-4: #ffb58e;
-}
-
 html.lenis {
   height: auto;
 }
@@ -21,15 +12,11 @@ html.lenis {
   overflow: hidden;
 }
 
-* {
-  box-sizing: border-box;
-}
-
 body {
   margin: 0;
   padding: 0;
-  background-color: var(--c-bg);
-  color: var(--c-ink);
+  background-color: #050505;
+  color: #faf9f8;
   width: 100%;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
@@ -38,33 +25,12 @@ body {
 .atmosphere {
   position: fixed;
   inset: 0;
-  background:
-    radial-gradient(circle at 20% 10%, rgba(124, 247, 246, 0.11), transparent 40%),
-    radial-gradient(circle at 80% 20%, rgba(217, 140, 255, 0.14), transparent 40%),
-    radial-gradient(circle at 50% 70%, rgba(136, 184, 255, 0.11), transparent 45%),
-    #05070d;
+  background-image: url('/assets/images/bg-logo.jpeg');
+  background-size: cover;
+  background-position: center;
+  opacity: 0.4;
   pointer-events: none;
   z-index: 0;
-}
-
-.jill-mark {
-  font-weight: 500;
-  letter-spacing: -0.04em;
-  line-height: 0.95;
-  background: linear-gradient(120deg, var(--c-irid-1) 5%, var(--c-irid-2) 30%, var(--c-irid-3) 60%, var(--c-irid-4) 90%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  text-shadow:
-    0 0 12px rgba(124, 247, 246, 0.22),
-    0 0 30px rgba(217, 140, 255, 0.2);
-}
-
-.jill-mark-ai {
-  font-weight: 600;
-  letter-spacing: 0.05em;
-  color: #9eeeff;
-  text-shadow: 0 0 16px rgba(124, 247, 246, 0.3);
 }
 
 body.custom-cursor {
@@ -88,19 +54,19 @@ body.custom-cursor select {
 @keyframes iridescent {
   0%,
   100% {
-    --glow-color: hsla(190, 86%, 78%, 0.45);
+    --glow-color: hsla(280, 80%, 85%, 0.4);
   }
 
   25% {
-    --glow-color: hsla(290, 88%, 77%, 0.52);
+    --glow-color: hsla(320, 80%, 85%, 0.6);
   }
 
   50% {
-    --glow-color: hsla(34, 95%, 76%, 0.34);
+    --glow-color: hsla(190, 80%, 85%, 0.4);
   }
 
   75% {
-    --glow-color: hsla(220, 95%, 76%, 0.42);
+    --glow-color: hsla(260, 80%, 85%, 0.6);
   }
 }
 
@@ -108,12 +74,12 @@ body.custom-cursor select {
   0%,
   100% {
     transform: scale(1);
-    opacity: 0.58;
+    opacity: 0.6;
   }
 
   50% {
-    transform: scale(1.09);
-    opacity: 0.92;
+    transform: scale(1.1);
+    opacity: 0.9;
   }
 }
 
