@@ -17,7 +17,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   useEffect(() => {
     const lenisInstance = new Lenis({
       duration: 1.35,
-      easing: (t) => 1 - Math.pow(1 - t, 4),
+      easing: (t: number) => 1 - Math.pow(1 - t, 4),
       smoothWheel: true,
     });
 
