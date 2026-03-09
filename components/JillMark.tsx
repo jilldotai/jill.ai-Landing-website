@@ -1,8 +1,8 @@
 import React from 'react';
 
 interface JillMarkProps {
-  className?: string;
-  compact?: boolean;
+  className: string;
+  compact: boolean;
 }
 
 const JillMark: React.FC<JillMarkProps> = ({ className = '', compact = false }) => {

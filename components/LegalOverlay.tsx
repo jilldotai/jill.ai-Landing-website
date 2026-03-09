@@ -57,7 +57,7 @@ const LegalOverlay: React.FC<LegalOverlayProps> = ({ isOpen, onClose, title, con
   return (
     <div
       ref={overlayRef}
-      className="fixed inset-0 z-[2000] bg-black/98 backdrop-blur-3xl flex flex-col opacity-0 invisible translate-y-5"
+      className="fixed inset-0 z-[2000] bg-black/98 backdrop-blur-3xl flex flex-col   opacity-0 invisible translate-y-5"
     >
       {/* Persistent Floating Close Button */}
       <button

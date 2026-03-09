@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   title: 'Jill.ai | Intelligence with Intent',
   description: 'Jill.ai landing site',
   icons: {
-    icon: '/assets/icons/flavicon.svg',
+    icon: '/assets/icons/favicon.svg',
   },
 };
 

@@ -1,8 +1,9 @@
 'use client';
 
-import { FormEvent, useState } from 'react';
+import { useState } from 'react';
 import { m } from 'motion/react';
 import { Reveal } from '@/components/site-motion';
+import type { SubmitEvent } from 'react';
 
 const initialState = {
   name: '',
@@ -17,7 +18,7 @@ export function ContactForm() {
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState('');
 
-  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: SubmitEvent<HTMLFormElement>) {
     event.preventDefault();
     setStatus('loading');
     setErrorMessage('');
