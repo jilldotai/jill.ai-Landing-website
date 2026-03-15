@@ -1,4 +1,5 @@
 import React from 'react';
+import { motion as m } from 'framer-motion';
 
 const links = [
   { label: 'About', href: '#about' },
@@ -49,9 +50,9 @@ const Navbar: React.FC<NavbarProps> = ({ onMenuOpen }) => {
           </span>
           <div className="flex flex-col gap-1.5 w-10">
             <div className="w-full h-[1.5px] bg-foreground transition-all duration-500 group-hover:translate-y-[-2px]" />
-            <div className="w-2/3 h-[1.5px] bg-foreground transition-all duration-500 group-hover:w-full self-end" />
+                      <div className="w-2/3 h-[1.5px] bg-foreground transition-all duration-500 group-hover:w-full self-end" />
           </div>
-        </m.a>
+        </button>
 
         <nav className="hidden items-center gap-8 md:flex">
           {links.map((link) => (
@@ -76,6 +77,8 @@ const Navbar: React.FC<NavbarProps> = ({ onMenuOpen }) => {
           Join now
         </m.a>
       </div>
-    </m.header>
+    </nav>
   );
-}
+};
+
+export default Navbar;

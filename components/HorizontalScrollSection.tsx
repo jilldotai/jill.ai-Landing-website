@@ -8,7 +8,7 @@ interface Panel {
   body?: string;
 }
 
-const showcaseItems: ShowcaseItem[] = [
+const showcaseItems: (Panel & { subtitle: string; description?: string; mediaUrl: string; sideImage: string; isVideo?: boolean })[] = [
   {
     id: "00",
     title: "IOkT",
@@ -92,12 +92,12 @@ const HorizontalScrollSection: React.FC = () => {
   return (
     <section id="showcase" ref={triggerRef} className="overflow-hidden bg-black/70 relative border-y border-white/5">
       <div ref={sectionRef} className="flex h-screen w-max items-center">
-        {panels.map((panel, idx) => (
-          <article key={panel.id} className="narrative-panel w-screen h-screen px-6 md:px-16 flex items-center justify-center">
+        {showcaseItems.map((item, idx) => (
+          <article key={item.id} className="narrative-panel w-screen h-screen px-6 md:px-16 flex items-center justify-center">
             <div className="w-full max-w-5xl rounded-[2.2rem] border border-white/10 bg-[linear-gradient(120deg,rgba(7,8,18,0.92),rgba(19,23,34,0.72))] p-10 md:p-16">
-              <p className="text-[10px] uppercase tracking-[0.5em] text-[#8ee7ff] mb-8">Panel {idx + 1} / {panels.length}</p>
-              <h3 className="text-4xl md:text-7xl font-light leading-tight tracking-tight max-w-4xl">{panel.title}</h3>
-              {panel.body && <p className="mt-6 text-xl md:text-3xl text-foreground/70">{panel.body}</p>}
+              <p className="text-[10px] uppercase tracking-[0.5em] text-[#8ee7ff] mb-8">Panel {idx + 1} / {showcaseItems.length}</p>
+              <h3 className="text-4xl md:text-7xl font-light leading-tight tracking-tight max-w-4xl">{item.title}</h3>
+              {item.description && <p className="mt-6 text-xl md:text-3xl text-foreground/70">{item.description}</p>}
             </div>
           </article>
         ))}

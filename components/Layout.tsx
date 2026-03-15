@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import Lenis from '@studio-freight/lenis';
+import Lenis from 'lenis';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import GlowingCursor from './GlowingCursor';
 import Navbar from './Navbar';
-import MenuOverlay from './MenuOverlay';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -43,19 +41,47 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     };
   }, []);
 
+  const handleMenuOpen = () => {
+    setIsMenuOpen(true);
+    document.body.style.overflow = 'hidden';
+  };
+
+  const handleMenuClose = () => {
+    setIsMenuOpen(false);
+    document.body.style.overflow = '';
+  };
+
   return (
-    <div className="min-h-screen selection:bg-accent selection:text-white bg-transparent">
-      <div className="atmosphere" />
-      <GlowingCursor />
-      <Navbar onMenuOpen={() => setIsMenuOpen(true)} />
-      <MenuOverlay
-        isOpen={isMenuOpen}
-        onClose={() => setIsMenuOpen(false)}
-        lenis={lenis}
-      />
-      <div className="relative z-10 w-full">
-        {children}
-      </div>
+    <div className="relative">
+      <Navbar onMenuOpen={handleMenuOpen} />
+      {children}
+      {/* Mobile Menu Overlay */}
+      {isMenuOpen && (
+        <div className="fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex flex-col items-center justify-center">
+          <button
+            onClick={handleMenuClose}
+            className="absolute top-8 right-8 text-white text-2xl font-bold"
+          >
+            &times;
+          </button>
+          <nav className="flex flex-col items-center gap-8">
+            {[
+              { label: 'About', href: '#about' },
+              { label: 'Technology', href: '#technology' },
+              { label: 'Use Cases', href: '#use-cases' },
+              { label: 'Team', href: '#team' },
+            ].map((link) => (
+              <a
+                key={link.href}
+                href={link.href}
+                className="text-white text-xl font-medium hover:text-blue-500 transition-colors"
+              >
+                {link.label}
+              </a>
+            ))}
+          </nav>
+        </div>
+      )}
     </div>
   );
 };

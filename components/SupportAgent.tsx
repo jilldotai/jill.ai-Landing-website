@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect, useRef } from 'react';
-import { GoogleGenAI, Modality, LiveServerMessage } from '@google/genai';
+import { GoogleGenerAI } from "@google/generative-ai";
 import { gsap } from 'gsap';
 
 const SYSTEM_INSTRUCTION = `
