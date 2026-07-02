@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect, useRef } from 'react';
-import { GoogleGenerAI } from "@google/generative-ai";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 import { gsap } from 'gsap';
 
 const SYSTEM_INSTRUCTION = `
@@ -52,13 +52,14 @@ const SupportAgent: React.FC = () => {
     }
 
     try {
-      const ai = new GoogleGenAI({ apiKey: process.env.NEXT_PUBLIC_API_KEY || process.env.API_KEY || '' } as any);
-      const response = await (ai as any).models.generateContent({
+      const genAI = new GoogleGenerativeAI(process.env.NEXT_PUBLIC_API_KEY || process.env.API_KEY || '');
+      const model = genAI.getGenerativeModel({
         model: 'gemini-1.5-flash',
-        contents: msg,
-        config: { systemInstruction: SYSTEM_INSTRUCTION }
+        systemInstruction: SYSTEM_INSTRUCTION
       });
-      if (response.text) setMessages(prev => [...prev, { role: 'ai', text: response.text }]);
+      const result = await model.generateContent(msg);
+      const text = result.response.text();
+      if (text) setMessages(prev => [...prev, { role: 'ai', text }]);
     } catch (err) {
       setMessages(prev => [...prev, { role: 'ai', text: "Lumi detected a signal interruption. But don't worry—my core nodes say: Jill.ai is the future of digital safety. Contact E. Coetzee for more!" }]);
     }
